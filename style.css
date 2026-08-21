@@ -1,0 +1,70 @@
+body {background-color: lightblue;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    font-family: arial, sans-serif;
+}
+
+.calculadora {
+    background-color: white;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+    width: 320px;
+}
+
+.calculadora h1 {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.calculadora input {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 16px;
+}
+
+.calculadora button {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+#resultado,
+#categoria {
+    text-align: center;
+    font-size: 18px;
+}
+
+.bajo-peso {
+    color: blue;
+}
+
+.normal {
+    color: green;
+}
+
+.sobrepeso {
+    color: orange;
+}
+
+.obesidad {
+    color: red;
+}
+
+.subtitulo {
+    text-align: center;
+    color: #666;
+    margin-top: -20px;
+    margin-bottom: 25px;
+    font-size: 14px;
+}

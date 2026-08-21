@@ -11,7 +11,18 @@
     <div class="calculadora">
 
             <h1>Calculadora de IMC</h1>
-            <p class="subtitulo">Adulto - Chile</p>
+            <p class="subtitulo">Chile</p>
+
+            <p>Tipo de evaluación</p>
+
+            <div class="tipo-evaluación">
+                <button type="button" onclick="seleccionarTipo('adulto')" id="btnAdulto" class="activo">Adulto
+                </button>
+
+                <button type="button" onclick="seleccionarTipo('adultoMayor')" id="btnAdultoMayor">Adulto mayor
+                </button>
+
+            </div>
 
             <form onsubmit="calcularIMC(); return false;">
 

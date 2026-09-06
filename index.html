@@ -3,7 +3,7 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Calculadora IMC</title>
+    <title>Calculadora Nutricional</title>
 
     <link rel="stylesheet" href="style.css">
     <link rel="manifest" href="manifest.json">
@@ -16,45 +16,207 @@
 
     <div class="calculadora">
 
-            <h1>Calculadora de IMC</h1>
-            <p class="subtitulo">Chile</p>
+        <h1>Calculadora Nutricional</h1>
 
-            <p>Tipo de evaluación</p>
+        <p class="subtitulo">Chile</p>
 
-            <div class="tipo-evaluación">
-                <button type="button" onclick="seleccionarTipo('adulto')" id="btnAdulto" class="activo">Adulto
-                </button>
+        <p>Tipo de evaluación</p>
 
-                <button type="button" onclick="seleccionarTipo('adultoMayor')" id="btnAdultoMayor">Adulto mayor
-                </button>
+        <div class="tipo-evaluación">
 
-            </div>
+            <button
+                type="button"
+                onclick="seleccionarTipo('adulto')"
+                id="btnAdulto"
+                class="activo">
+                Adulto
+            </button>
 
-            <form onsubmit="calcularIMC(); return false;">
+            <button
+                type="button"
+                onclick="seleccionarTipo('adultoMayor')"
+                id="btnAdultoMayor">
+                Adulto mayor
+            </button>
+
+            <button
+                type="button"
+                onclick="seleccionarTipo('pediatrico')"
+                id="btnPediatrico">
+                Pediátrico
+            </button>
+
+        </div>
+
+
+        <form onsubmit="calcularIMC(); return false;">
+
+            <!-- ========================= -->
+            <!-- CAMPOS ADULTO -->
+            <!-- ========================= -->
+
+            <div id="camposAdulto">
 
                 <label>Peso (kg)</label>
-                <input type="number" id="peso" step="0.01" min="1" max="500"> 
+
+                <input
+                    type="number"
+                    id="peso"
+                    step="0.01"
+                    min="1"
+                    max="500">
 
                 <br><br>
 
                 <label>Altura (m)</label>
-                <input type="number" id="altura" step="0.01" min="0.5" max="2.5">
 
-                <br><br>
-
-                <button>Calcular IMC</button>
-
-            </form>
-
-            <div class="resultado">
-
-                <p class="titulo-resultado">Tu IMC</p>
-                <p id="resultado">--</p>
-                <p id="categoria">Ingresa tus datos</p>
+                <input
+                    type="number"
+                    id="altura"
+                    step="0.01"
+                    min="0.5"
+                    max="2.5">
 
             </div>
 
-    </div>            
+
+            <!-- ========================= -->
+            <!-- CAMPOS PEDIÁTRICOS -->
+            <!-- ========================= -->
+
+            <div id="camposPediatricos" style="display: none;">
+
+                <label>Sexo</label>
+
+                <select id="sexo">
+
+                    <option value="">Seleccionar</option>
+
+                    <option value="nino">Niño</option>
+
+                    <option value="nina">Niña</option>
+
+                </select>
+
+                <br><br>
+
+
+                <label>Edad</label>
+
+                <div class="edad">
+
+                    <div>
+                        <input
+                            type="number"
+                            id="anios"
+                            min="0"
+                            max="19"
+                            placeholder="Años">
+                    </div>
+
+                    <div>
+                        <input
+                            type="number"
+                            id="meses"
+                            min="0"
+                            max="11"
+                            placeholder="Meses">
+                    </div>
+
+                </div>
+
+                <br>
+
+
+                <label>Peso (kg)</label>
+
+                <input
+                    type="number"
+                    id="pesoPediatrico"
+                    step="0.01"
+                    min="0.1"
+                    max="150">
+
+                <br><br>
+
+
+                <label>Talla / longitud (cm)</label>
+
+                <input
+                    type="number"
+                    id="talla"
+                    step="0.1"
+                    min="20"
+                    max="220">
+
+                <br><br>
+
+
+                <!-- IMC -->
+                <label>IMC</label>
+
+                <input
+                    type="text"
+                    id="imcPediatrico"
+                    placeholder="Se calculará automáticamente"
+                    readonly>
+
+                <br><br>
+
+
+                <!-- PERÍMETRO DE CINTURA -->
+                <label>Perímetro de cintura (cm)</label>
+
+                <input
+                    type="number"
+                    id="cintura"
+                    step="0.1"
+                    min="10"
+                    max="150">
+
+                <br><br>
+
+
+                <!-- PERÍMETRO CRANEAL -->
+                <label>Perímetro craneal (cm)</label>
+
+                <input
+                    type="number"
+                    id="perimetroCraneal"
+                    step="0.1"
+                    min="20"
+                    max="70">
+
+            </div>
+
+
+            <br>
+
+            <button type="submit" id="botonCalcular">
+                Calcular IMC
+            </button>
+
+        </form>
+
+
+        <!-- ========================= -->
+        <!-- RESULTADO -->
+        <!-- ========================= -->
+
+        <div class="resultado">
+
+            <p class="titulo-resultado">Resultado</p>
+
+            <p id="resultado">--</p>
+
+            <p id="categoria">Ingresa tus datos</p>
+
+        </div>
+
+    </div>
+
+
     <script src="script.js"></script>
+
 </body>
 </html>

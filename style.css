@@ -171,3 +171,178 @@ body {
     }
 
 }
+/* =========================
+   CAMPOS PEDIÁTRICOS
+   ========================= */
+
+/* Selector de sexo */
+
+.calculadora select {
+    width: 100%;
+
+    padding: 10px;
+
+    margin-top: 5px;
+
+    box-sizing: border-box;
+
+    border: 1px solid #ccc;
+
+    border-radius: 8px;
+
+    font-size: 16px;
+
+    background-color: white;
+
+    cursor: pointer;
+}
+
+
+/* Edad: años y meses */
+
+.edad {
+    display: flex;
+
+    gap: 10px;
+}
+
+.edad div {
+    flex: 1;
+}
+
+.edad input {
+    width: 100%;
+}
+
+
+/* Separación entre los campos pediátricos */
+
+#camposPediatricos label {
+    display: block;
+
+    margin-bottom: 5px;
+}
+
+
+/* IMC calculado automáticamente */
+
+#imcPediatrico {
+    background-color: #f2f2f2;
+
+    color: #555;
+
+    cursor: not-allowed;
+}
+
+
+/* =========================
+   BOTONES DE EVALUACIÓN
+   ========================= */
+
+.tipo-evaluación {
+    display: flex;
+
+    gap: 8px;
+
+    margin-bottom: 20px;
+}
+
+.tipo-evaluación button {
+    flex: 1;
+
+    background-color: #e0e0e0;
+
+    color: #333;
+
+    font-size: 14px;
+
+    padding: 10px 5px;
+}
+
+.tipo-evaluación button.activo {
+    background-color: #4a90e2;
+
+    color: white;
+}
+
+
+/* =========================
+   CELULARES
+   ========================= */
+
+@media (max-width: 600px) {
+
+    .tipo-evaluación {
+        gap: 6px;
+    }
+
+    .tipo-evaluación button {
+        font-size: 14px;
+
+        padding: 11px 4px;
+    }
+
+    .calculadora select {
+        font-size: 18px;
+
+        padding: 13px;
+    }
+
+}
+
+/* =========================
+   COLORES RESULTADO NUTRICIONAL
+   ========================= */
+
+#resultado {
+    font-size: 22px;
+    font-weight: bold;
+    padding: 12px;
+    border-radius: 10px;
+    margin: 10px 0 18px;
+    text-align: center;
+}
+
+.estado-azul {
+    color: #1565c0;
+    background-color: #e3f2fd;
+}
+
+.estado-verde {
+    color: #2e7d32;
+    background-color: #e8f5e9;
+}
+
+.estado-naranjo {
+    color: #e65100;
+    background-color: #fff3e0;
+}
+
+.estado-rojo {
+    color: #c62828;
+    background-color: #ffebee;
+}
+
+/* =========================
+   DETALLE DE RESULTADOS
+   ========================= */
+
+.detalle-resultado {
+    text-align: left;
+}
+
+.fila-resultado {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 15px;
+
+    padding: 8px 0;
+
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.fila-resultado span:last-child,
+.fila-resultado strong:last-child {
+    text-align: right;
+}

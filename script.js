@@ -3262,3 +3262,1413 @@ if ("serviceWorker" in navigator) {
         });
 
 }
+
+// =========================
+// CAMBIO DE MÓDULOS
+// =========================
+
+function seleccionarModulo(modulo) {
+
+    const antropometria = document.getElementById("moduloAntropometria");
+    const presionArterial = document.getElementById("moduloPresionArterial");
+
+    const btnAntropometria = document.getElementById("btnAntropometria");
+    const btnPresionArterial = document.getElementById("btnPresionArterial");
+
+    if (modulo === "antropometria") {
+
+        antropometria.style.display = "block";
+        presionArterial.style.display = "none";
+
+        btnAntropometria.classList.add("activo");
+        btnPresionArterial.classList.remove("activo");
+
+    } else if (modulo === "presionArterial") {
+
+        antropometria.style.display = "none";
+        presionArterial.style.display = "block";
+
+        btnAntropometria.classList.remove("activo");
+        btnPresionArterial.classList.add("activo");
+
+    }
+}
+
+// CAMBIO ENTRE TIPOS DE EVALUACIÓN DE PRESIÓN ARTERIAL
+function seleccionarTipoPA(tipo) {
+    const btnAdulto = document.getElementById("btnPAAdulto");
+    const btnNNA = document.getElementById("btnPANNA");
+
+    const camposAdulto = document.getElementById("camposPAAdulto");
+    const camposNNA = document.getElementById("camposPANNA");
+
+    if (tipo === "adulto") {
+        btnAdulto.classList.add("activo");
+        btnNNA.classList.remove("activo");
+
+        camposAdulto.style.display = "block";
+        camposNNA.style.display = "none";
+
+    } else if (tipo === "nna") {
+        btnAdulto.classList.remove("activo");
+        btnNNA.classList.add("activo");
+
+        camposAdulto.style.display = "none";
+        camposNNA.style.display = "block";
+    }
+}
+
+// =========================
+// PRESIÓN ARTERIAL - ADULTOS
+// =========================
+
+// GUARDAR EL BRAZO INICIAL DE LA EVALUACIÓN
+let brazoInicial = null;
+
+document.getElementById("btnEvaluarPA1").addEventListener("click", function () {
+
+    // OCULTAR DECISIÓN ANTERIOR
+    document.getElementById("decisionPAAdulto").style.display = "none";
+
+    // OCULTAR RESULTADOS ANTERIORES
+    document.getElementById("resultadoPA1").style.display = "none";
+    document.getElementById("resultadoPADerecho").style.display = "none";
+
+    const pasIzq = document.getElementById("pas1").value;
+    const padIzq = document.getElementById("pad1").value;
+
+    const pasDer = document.getElementById("pasDerecho").value;
+    const padDer = document.getElementById("padDerecho").value;
+
+    // IDENTIFICAR BRAZO DE LA PRIMERA MEDICIÓN
+    
+
+    // IDENTIFICAR Y CONSERVAR EL BRAZO INICIAL
+    if (brazoInicial === null) {
+
+        if (pasIzq !== "" && padIzq !== "" &&
+            pasDer === "" && padDer === "") {
+            brazoInicial = "izquierdo";
+        }
+
+        if (pasDer !== "" && padDer !== "" &&
+            pasIzq === "" && padIzq === "") {
+            brazoInicial = "derecho";
+        }
+
+    }
+
+    console.log("Brazo inicial:", brazoInicial);
+
+    // VALIDAR MEDICIONES INCOMPLETAS
+    if ((pasIzq === "") !== (padIzq === "")) {
+        alert("Completa la PAS y PAD del brazo izquierdo.");
+        return;
+    }
+
+    if ((pasDer === "") !== (padDer === "")) {
+        alert("Completa la PAS y PAD del brazo derecho.");
+        return;
+    }
+
+    if (pasIzq === "" && padIzq === "" &&
+        pasDer === "" && padDer === "") {
+        alert("Ingresa al menos una medición completa.");
+        return;
+    }
+
+    // VALIDAR RELACIÓN ENTRE PAS Y PAD
+    if (pasIzq !== "" && Number(pasIzq) <= Number(padIzq)) {
+        alert("En el brazo izquierdo, la PAS debe ser mayor que la PAD.");
+        return;
+    }
+
+    if (pasDer !== "" && Number(pasDer) <= Number(padDer)) {
+        alert("En el brazo derecho, la PAS debe ser mayor que la PAD.");
+        return;
+    }
+
+    // VALIDAR RANGOS DE PRESIÓN ARTERIAL
+    if (pasIzq !== "" &&
+        (Number(pasIzq) < 40 || Number(pasIzq) > 300 ||
+        Number(padIzq) < 20 || Number(padIzq) > 200)) {
+        alert("Los valores del brazo izquierdo están fuera del rango permitido.");
+        return;
+    }
+
+    if (pasDer !== "" &&
+        (Number(pasDer) < 40 || Number(pasDer) > 300 ||
+        Number(padDer) < 20 || Number(padDer) > 200)) {
+        alert("Los valores del brazo derecho están fuera del rango permitido.");
+        return;
+    }
+
+    // MOSTRAR DECISIÓN DEL EXAMINADOR
+    document.getElementById("decisionPAAdulto").style.display = "block";
+
+    // MOSTRAR SELECCIÓN CUANDO AMBOS BRAZOS ESTÉN EVALUADOS
+    const seleccionBrazoPA = document.getElementById("seleccionBrazoPA");
+
+    if (
+        pasIzq !== "" && padIzq !== "" &&
+        pasDer !== "" && padDer !== ""
+    ) {
+        seleccionBrazoPA.style.display = "block";
+        document.getElementById("decisionPAAdulto").style.display = "none";
+    } else {
+        seleccionBrazoPA.style.display = "none";
+    }
+
+    const resultadoIzq = document.getElementById("resultadoPA1");
+    const resultadoDer = document.getElementById("resultadoPADerecho");
+
+    if (pasIzq !== "" && padIzq !== "") {
+        document.getElementById("textoResultadoPA1").textContent =
+            `Medición: ${pasIzq}/${padIzq} mmHg — ${clasificarPAAdulto(Number(pasIzq), Number(padIzq))}`;
+
+        resultadoIzq.style.display = "block";
+    } else {
+        resultadoIzq.style.display = "none";
+    }
+
+    if (pasDer !== "" && padDer !== "") {
+        document.getElementById("textoResultadoPADerecho").textContent =
+            `Medición: ${pasDer}/${padDer} mmHg — ${clasificarPAAdulto(Number(pasDer), Number(padDer))}`;
+
+        resultadoDer.style.display = "block";
+    } else {
+        resultadoDer.style.display = "none";
+    }
+
+});
+
+// =========================
+// CLASIFICACIÓN PA ADULTOS
+// =========================
+
+function clasificarPAAdulto(pas, pad) {
+
+    if (pas >= 180 || pad >= 110) {
+        return "Hipertensión Etapa 3";
+    }
+
+    if (pas >= 160 || pad >= 100) {
+        return "Hipertensión Etapa 2";
+    }
+
+    if (pas >= 140 || pad >= 90) {
+        return "Hipertensión Etapa 1";
+    }
+
+    if (pas >= 130 || pad >= 85) {
+        return "Normal Alta";
+    }
+
+    if (pas >= 120 || pad >= 80) {
+        return "Normal";
+    }
+
+    return "Óptima";
+}
+
+// FINALIZAR EVALUACIÓN DE PA ADULTO
+document.getElementById("btnFinalizarPA").addEventListener("click", function () {
+    document.getElementById("decisionPAAdulto").style.display = "none";
+
+    document.getElementById("btnNuevaEvaluacionPA").style.display = "block";
+
+});
+
+// CONTINUAR EVALUACIÓN DE PA ADULTO
+document.getElementById("btnContinuarPA").addEventListener("click", function () {
+
+    if (brazoInicial === "izquierdo") {
+        alert("Continúe con la medición del brazo derecho.");
+
+    } else if (brazoInicial === "derecho") {
+        alert("Continúe con la medición del brazo izquierdo.");
+
+    } else {
+        alert("No se ha identificado el brazo inicial.");
+    }
+
+});
+
+// CONFIRMAR BRAZO PARA CONTINUAR
+let brazoSeleccionadoPA = null;
+
+document.getElementById("btnConfirmarBrazoPA").addEventListener("click", function () {
+
+    const brazo = document.getElementById("brazoContinuarPA").value;
+
+    if (brazo === "") {
+        alert("Seleccione un brazo para continuar.");
+        return;
+    }
+
+    brazoSeleccionadoPA = brazo;
+
+    // MOSTRAR MEDICIONES ADICIONALES DEL BRAZO SELECCIONADO
+    document.getElementById("textoBrazoSeleccionadoPA").textContent =
+        "Brazo seleccionado: " +
+        (brazo === "izquierdo" ? "izquierdo" : "derecho");
+
+    document.getElementById("medicionesAdicionalesPA").style.display = "block";
+
+    // OCULTAR SELECTOR DESPUÉS DE CONFIRMAR
+    document.getElementById("seleccionBrazoPA").style.display = "none";
+
+    console.log("Brazo seleccionado para continuar:", brazoSeleccionadoPA);
+
+});
+
+// CALCULAR PROMEDIO DE LAS DOS MEDICIONES ADICIONALES
+document.getElementById("btnCalcularPromedioPA").addEventListener("click", function () {
+
+    const pas1 = document.getElementById("pasAdicional1").value;
+    const pad1 = document.getElementById("padAdicional1").value;
+    const pas2 = document.getElementById("pasAdicional2").value;
+    const pad2 = document.getElementById("padAdicional2").value;
+
+    // VALIDAR CAMPOS COMPLETOS
+    if (pas1 === "" || pad1 === "" || pas2 === "" || pad2 === "") {
+        alert("Complete las dos mediciones adicionales.");
+        return;
+    }
+
+    // VALIDAR VALORES
+    const valores = [pas1, pad1, pas2, pad2].map(Number);
+
+    if (!valores.every(Number.isFinite) ||
+        Number(pas1) < 40 || Number(pas1) > 300 ||
+        Number(pas2) < 40 || Number(pas2) > 300 ||
+        Number(pad1) < 20 || Number(pad1) > 200 ||
+        Number(pad2) < 20 || Number(pad2) > 200) {
+        alert("Ingrese valores de presión arterial dentro del rango permitido.");
+        return;
+    }
+
+    if (Number(pas1) <= Number(pad1) ||
+        Number(pas2) <= Number(pad2)) {
+        alert("La PAS debe ser mayor que la PAD en ambas mediciones.");
+        return;
+    }
+
+    // PROMEDIAR SOLO LAS DOS MEDICIONES ADICIONALES
+    const promedioPAS = (Number(pas1) + Number(pas2)) / 2;
+    const promedioPAD = (Number(pad1) + Number(pad2)) / 2;
+
+    const clasificacion = clasificarPAAdulto(promedioPAS, promedioPAD);
+
+    document.getElementById("textoPromedioPA").textContent =
+        `Promedio: ${promedioPAS.toFixed(1)}/${promedioPAD.toFixed(1)} mmHg — ${clasificacion}`;
+
+    document.getElementById("resultadoPromedioPA").style.display = "block";
+
+    document.getElementById("btnNuevaEvaluacionPA").style.display = "block";
+});
+
+// REINICIAR EVALUACIÓN DE PRESIÓN ARTERIAL
+document.getElementById("btnNuevaEvaluacionPA").addEventListener("click", function () {
+
+    // LIMPIAR MEDICIONES
+    [
+        "pas1", "pad1",
+        "pasDerecho", "padDerecho",
+        "pasAdicional1", "padAdicional1",
+        "pasAdicional2", "padAdicional2"
+    ].forEach(function (id) {
+        document.getElementById(id).value = "";
+    });
+
+    // OCULTAR RESULTADOS Y SECCIONES
+    [
+        "resultadoPA1",
+        "resultadoPADerecho",
+        "resultadoPromedioPA",
+        "decisionPAAdulto",
+        "seleccionBrazoPA",
+        "medicionesAdicionalesPA",
+        "btnNuevaEvaluacionPA"
+    ].forEach(function (id) {
+        document.getElementById(id).style.display = "none";
+    });
+
+    // REINICIAR SELECCIÓN DE BRAZO
+    document.getElementById("brazoContinuarPA").value = "";
+
+    brazoInicial = null;
+    brazoSeleccionadoPA = null;
+
+});
+
+// MOSTRAR SEXO Y TALLA SEGÚN EDAD - PRESIÓN ARTERIAL NNA
+
+document.getElementById("edadPANNA").addEventListener("input", function () {
+
+    const edad = Number(this.value);
+    const datosPercentiles = document.getElementById("datosPercentilesPANNA");
+
+    if (this.value === "") {
+        datosPercentiles.style.display = "none";
+        return;
+    }
+
+    if (edad >= 1 && edad <= 12) {
+        datosPercentiles.style.display = "block";
+    } else {
+        datosPercentiles.style.display = "none";
+    }
+
+});
+
+// CLASIFICACIÓN DE PRESIÓN ARTERIAL EN ADOLESCENTES
+// 13 A 19 AÑOS - CRITERIOS MINSAL
+
+function clasificarPAAdolescente(pas, pad) {
+
+    if (pas >= 140 || pad >= 90) {
+        return "HTA estadio 2";
+    }
+
+    if (pas >= 130 || pad >= 80) {
+        return "HTA estadio 1";
+    }
+
+    if (pas >= 120 && pas <= 129 && pad < 80) {
+        return "Presión arterial elevada";
+    }
+
+    return "Presión arterial normal";
+}
+
+
+ // ==========================================
+ // PRESIÓN ARTERIAL PEDIÁTRICA - MINSAL 2023
+ // TABLAS PARA NNA DE 1 A 12 AÑOS
+ // ==========================================
+
+ // Percentiles de talla utilizados por MINSAL
+ const PERCENTILES_TALLA_PA = [5, 10, 25, 50, 75, 90, 95];
+
+ // Valores oficiales publicados por MINSAL
+ const TABLAS_PA_NNA = {
+     nina: {},
+     nino: {}
+ };
+
+ 
+ // ==========================================
+ // NIÑAS DE 1 A 4 AÑOS - MINSAL 2023
+ // ==========================================
+
+ TABLAS_PA_NNA.nina[1] = {
+     talla: [75.4, 76.6, 78.6, 80.8, 83.0, 84.9, 86.1],
+     pas: {
+         50:  [84, 85, 86, 86, 101, 88, 88],
+         90:  [98, 99, 99, 100, 113, 102, 102],
+         95:  [101, 102, 102, 103, 117, 105, 105],
+         107: [113, 114, 114, 115, 129, 117, 117]
+     },
+     pad: {
+         50:  [41, 42, 42, 43, 44, 45, 46],
+         90:  [54, 55, 56, 56, 57, 58, 58],
+         95:  [59, 59, 60, 60, 61, 62, 62],
+         107: [71, 71, 72, 72, 73, 74, 74]
+     }
+ };
+
+ TABLAS_PA_NNA.nina[2] = {
+     talla: [84.9, 86.3, 88.6, 91.1, 93.7, 96.0, 97.4],
+     pas: {
+         50:  [87, 87, 88, 89, 90, 91, 91],
+         90:  [101, 101, 102, 103, 104, 105, 106],
+         95:  [104, 105, 106, 106, 107, 108, 109],
+         107: [116, 117, 118, 118, 119, 120, 121]
+     },
+     pad: {
+         50:  [45, 46, 47, 48, 49, 50, 51],
+         90:  [58, 58, 59, 60, 61, 62, 62],
+         95:  [62, 63, 63, 64, 65, 66, 66],
+         107: [74, 75, 75, 76, 77, 78, 78]
+     }
+ };
+
+ TABLAS_PA_NNA.nina[3] = {
+     talla: [91.0, 92.4, 94.9, 97.6, 100.5, 103.1, 104.6],
+     pas: {
+         50:  [88, 89, 89, 90, 91, 92, 93],
+         90:  [102, 103, 104, 104, 105, 106, 107],
+         95:  [106, 106, 107, 108, 109, 110, 110],
+         107: [118, 118, 119, 120, 121, 122, 122]
+     },
+     pad: {
+         50:  [48, 48, 49, 50, 51, 53, 53],
+         90:  [60, 61, 61, 62, 63, 64, 65],
+         95:  [64, 65, 65, 66, 67, 68, 69],
+         107: [76, 77, 77, 78, 79, 80, 81]
+     }
+ };
+
+ TABLAS_PA_NNA.nina[4] = {
+     talla: [97.2, 98.8, 101.4, 104.5, 107.6, 110.5, 112.2],
+     pas: {
+         50:  [89, 90, 91, 92, 93, 94, 94],
+         90:  [103, 104, 105, 106, 107, 108, 108],
+         95:  [107, 108, 109, 109, 110, 111, 112],
+         107: [119, 120, 121, 121, 122, 123, 124]
+     },
+     pad: {
+         50:  [50, 51, 51, 53, 54, 55, 55],
+         90:  [62, 63, 64, 65, 66, 67, 67],
+         95:  [66, 67, 68, 69, 70, 70, 71],
+         107: [78, 79, 80, 81, 82, 82, 83]
+     }
+ };
+
+ // ==========================================
+ // NIÑAS DE 5 A 9 AÑOS - MINSAL 2023
+ // ==========================================
+
+ TABLAS_PA_NNA.nina[5] = {
+     talla: [110, 111.8, 114.9, 118.4, 122.1, 125.6, 127.7],
+     pas: {
+         50:  [90, 91, 92, 93, 94, 95, 96],
+         90:  [104, 105, 106, 107, 108, 109, 110],
+         95:  [108, 109, 109, 110, 111, 112, 112],
+         107: [120, 121, 121, 122, 123, 124, 125]
+     },
+     pad: {
+         50:  [52, 52, 53, 55, 56, 57, 57],
+         90:  [64, 65, 66, 67, 68, 69, 70],
+         95:  [68, 69, 70, 71, 72, 73, 73],
+         107: [80, 81, 82, 83, 84, 85, 85]
+     }
+ };
+
+ TABLAS_PA_NNA.nina[6] = {
+     talla: [110, 111.8, 114.9, 118.4, 122.1, 125.6, 127.7],
+     pas: {
+         50:  [92, 92, 93, 94, 96, 97, 97],
+         90:  [105, 106, 107, 108, 109, 110, 111],
+         95:  [109, 109, 110, 111, 112, 113, 114],
+         107: [121, 121, 122, 123, 124, 125, 126]
+     },
+     pad: {
+         50:  [54, 54, 55, 56, 57, 58, 59],
+         90:  [67, 67, 68, 69, 70, 71, 71],
+         95:  [70, 71, 72, 72, 73, 74, 74],
+         107: [82, 83, 84, 84, 85, 86, 86]
+     }
+ };
+
+ TABLAS_PA_NNA.nina[7] = {
+     talla: [115.9, 117.8, 121.1, 124.9, 128.8, 132.5, 134.7],
+     pas: {
+         50:  [92, 93, 94, 95, 97, 98, 99],
+         90:  [106, 106, 107, 109, 110, 111, 112],
+         95:  [109, 110, 111, 112, 113, 114, 115],
+         107: [121, 122, 123, 124, 125, 126, 127]
+     },
+     pad: {
+         50:  [55, 55, 56, 57, 58, 59, 60],
+         90:  [68, 68, 69, 70, 71, 72, 72],
+         95:  [72, 72, 73, 73, 74, 74, 75],
+         107: [84, 84, 85, 85, 86, 86, 87]
+     }
+ };
+
+ TABLAS_PA_NNA.nina[8] = {
+     talla: [121, 123, 126.5, 130.6, 134.7, 138.5, 140.9],
+     pas: {
+         50:  [93, 94, 95, 97, 98, 99, 100],
+         90:  [107, 107, 108, 110, 111, 112, 113],
+         95:  [110, 111, 112, 113, 115, 116, 117],
+         107: [122, 123, 124, 125, 127, 128, 129]
+     },
+     pad: {
+         50:  [56, 56, 57, 59, 60, 61, 61],
+         90:  [69, 70, 71, 72, 72, 73, 73],
+         95:  [72, 73, 74, 74, 75, 75, 75],
+         107: [84, 85, 86, 86, 87, 87, 87]
+     }
+ };
+
+ TABLAS_PA_NNA.nina[9] = {
+     talla: [125.3, 127.6, 131.3, 135.6, 140.1, 144.1, 146.6],
+     pas: {
+         50:  [95, 95, 97, 98, 99, 100, 101],
+         90:  [108, 108, 109, 111, 112, 113, 114],
+         95:  [112, 112, 113, 114, 116, 117, 118],
+         107: [124, 124, 125, 126, 128, 129, 130]
+     },
+     pad: {
+         50:  [57, 58, 59, 60, 60, 61, 61],
+         90:  [71, 71, 72, 73, 73, 73, 73],
+         95:  [74, 74, 75, 75, 75, 75, 75],
+         107: [86, 86, 87, 87, 87, 87, 87]
+     }
+ };
+
+ 
+ // ==========================================
+ // NIÑAS DE 10 A 12 AÑOS - MINSAL 2023
+ // ==========================================
+
+ TABLAS_PA_NNA.nina[10] = {
+     talla: [129.7, 132.2, 136.3, 141.0, 145.8, 150.2, 152.8],
+     pas: {
+         50:  [96, 97, 98, 99, 101, 102, 103],
+         90:  [109, 110, 111, 112, 113, 115, 113],
+         95:  [113, 114, 114, 116, 117, 119, 120],
+         107: [125, 126, 126, 128, 129, 131, 132]
+     },
+     pad: {
+         50:  [58, 59, 59, 60, 61, 61, 62],
+         90:  [72, 73, 73, 73, 73, 73, 73],
+         95:  [75, 75, 76, 76, 76, 76, 76],
+         107: [87, 87, 88, 88, 88, 88, 88]
+     }
+ };
+
+ TABLAS_PA_NNA.nina[11] = {
+     talla: [135.6, 138.3, 142.8, 147.8, 152.8, 157.3, 160.0],
+     pas: {
+         50:  [98, 99, 101, 102, 104, 105, 106],
+         90:  [111, 112, 113, 114, 116, 118, 120],
+         95:  [115, 116, 117, 118, 120, 123, 124],
+         107: [127, 128, 129, 130, 132, 135, 136]
+     },
+     pad: {
+         50:  [60, 60, 60, 61, 62, 63, 64],
+         90:  [74, 74, 74, 74, 74, 75, 75],
+         95:  [76, 77, 77, 77, 77, 77, 77],
+         107: [88, 89, 89, 89, 89, 89, 89]
+     }
+ };
+
+ TABLAS_PA_NNA.nina[12] = {
+     talla: [142.8, 145.5, 149.9, 154.8, 159.6, 163.8, 166.4],
+     pas: {
+         50:  [102, 102, 104, 105, 107, 108, 108],
+         90:  [114, 115, 116, 118, 120, 122, 122],
+         95:  [118, 119, 120, 122, 124, 125, 126],
+         107: [130, 131, 132, 134, 136, 137, 138]
+     },
+     pad: {
+         50:  [61, 61, 61, 62, 64, 65, 65],
+         90:  [75, 75, 75, 75, 76, 76, 76],
+         95:  [78, 78, 78, 78, 79, 79, 79],
+         107: [90, 90, 90, 90, 91, 91, 91]
+     }
+ };
+
+ 
+ // ==========================================
+ // NIÑOS DE 1 A 4 AÑOS - MINSAL 2023
+ // Anexo 3, página 43
+ // ==========================================
+
+ TABLAS_PA_NNA.nino[1] = {
+     talla: [77.2, 78.2, 80.2, 82.4, 84.6, 86.7, 87.9],
+     pas: {
+         50:  [85, 85, 86, 86, 87, 88, 88],
+         90:  [98, 99, 99, 100, 100, 101, 101],
+         95:  [102, 102, 103, 103, 104, 105, 105],
+         107: [114, 114, 115, 115, 116, 117, 117]
+     },
+     pad: {
+         50:  [40, 40, 40, 41, 41, 42, 42],
+         90:  [52, 52, 53, 53, 54, 54, 54],
+         95:  [54, 54, 55, 55, 56, 57, 57],
+         107: [66, 66, 67, 67, 68, 69, 69]
+     }
+ };
+
+ TABLAS_PA_NNA.nino[2] = {
+     talla: [86.1, 87.4, 89.6, 92.1, 94.7, 97.1, 98.5],
+     pas: {
+         50:  [87, 87, 88, 89, 89, 90, 91],
+         90:  [100, 100, 101, 102, 103, 103, 104],
+         95:  [104, 105, 105, 106, 107, 107, 108],
+         107: [116, 117, 117, 118, 119, 119, 120]
+     },
+     pad: {
+         50:  [43, 43, 44, 44, 45, 46, 46],
+         90:  [55, 55, 56, 56, 57, 58, 58],
+         95:  [57, 58, 58, 59, 60, 61, 61],
+         107: [69, 70, 70, 71, 72, 73, 73]
+     }
+ };
+
+ TABLAS_PA_NNA.nino[3] = {
+     talla: [92.5, 93.9, 96.3, 99, 101.8, 104.3, 105.8],
+     pas: {
+         50:  [88, 89, 89, 90, 91, 91, 92],
+         90:  [101, 102, 102, 103, 104, 105, 105],
+         95:  [106, 106, 107, 107, 108, 109, 109],
+         107: [118, 118, 119, 119, 120, 121, 121]
+     },
+     pad: {
+         50:  [45, 46, 46, 47, 48, 49, 49],
+         90:  [58, 58, 59, 59, 60, 61, 61],
+         95:  [60, 61, 61, 62, 63, 64, 64],
+         107: [72, 73, 73, 74, 75, 76, 76]
+     }
+ };
+
+ TABLAS_PA_NNA.nino[4] = {
+     talla: [98.5, 100.2, 102.9, 105.9, 108.9, 111.5, 113.2],
+     pas: {
+         50:  [90, 90, 91, 92, 93, 94, 94],
+         90:  [102, 103, 104, 105, 105, 106, 107],
+         95:  [107, 107, 108, 108, 109, 110, 110],
+         107: [119, 119, 120, 120, 121, 122, 122]
+     },
+     pad: {
+         50:  [48, 49, 49, 50, 51, 52, 52],
+         90:  [60, 61, 62, 62, 63, 64, 64],
+         95:  [63, 64, 65, 66, 67, 67, 68],
+         107: [75, 76, 77, 78, 79, 79, 80]
+     }
+ };
+
+ 
+// ==========================================
+// NIÑOS DE 5 A 9 AÑOS - MINSAL 2023
+// ==========================================
+
+TABLAS_PA_NNA.nino[5] = {
+    talla: [104.4, 106.2, 109.1, 112.4, 115.7, 118.6, 120.3],
+    pas: {
+        50:  [91, 92, 93, 94, 95, 96, 96],
+        90:  [103, 104, 105, 106, 107, 108, 108],
+        95:  [107, 108, 109, 109, 110, 111, 112],
+        107: [119, 120, 121, 121, 122, 123, 124]
+    },
+    pad: {
+        50:  [51, 51, 52, 53, 54, 55, 55],
+        90:  [63, 64, 65, 65, 66, 67, 67],
+        95:  [66, 67, 68, 69, 70, 70, 71],
+        107: [78, 79, 80, 81, 82, 82, 83]
+    }
+};
+
+TABLAS_PA_NNA.nino[6] = {
+    talla: [110.3, 112.2, 115.3, 118.9, 122.4, 125.6, 127.5],
+    pas: {
+        50:  [93, 93, 94, 95, 96, 97, 98],
+        90:  [105, 105, 106, 107, 109, 110, 110],
+        95:  [108, 109, 110, 111, 112, 113, 114],
+        107: [120, 121, 122, 123, 124, 125, 126]
+    },
+    pad: {
+        50:  [54, 54, 55, 56, 57, 57, 58],
+        90:  [66, 66, 67, 68, 68, 69, 69],
+        95:  [69, 70, 70, 71, 72, 72, 73],
+        107: [81, 82, 82, 83, 84, 84, 85]
+    }
+};
+
+TABLAS_PA_NNA.nino[7] = {
+    talla: [116.1, 118, 121.4, 125.1, 128.9, 132.4, 134.5],
+    pas: {
+        50:  [94, 94, 95, 97, 98, 98, 99],
+        90:  [106, 107, 108, 109, 110, 111, 111],
+        95:  [110, 110, 111, 112, 114, 115, 116],
+        107: [122, 122, 123, 124, 126, 127, 128]
+    },
+    pad: {
+        50:  [56, 56, 57, 58, 58, 59, 59],
+        90:  [68, 68, 69, 70, 70, 71, 71],
+        95:  [71, 71, 72, 72, 73, 74, 74],
+        107: [83, 83, 84, 84, 85, 86, 86]
+    }
+};
+
+TABLAS_PA_NNA.nino[8] = {
+    talla: [121.4, 123.5, 127, 131, 135.1, 138.8, 141],
+    pas: {
+        50:  [95, 96, 97, 98, 99, 99, 100],
+        90:  [107, 108, 109, 110, 111, 112, 112],
+        95:  [111, 112, 112, 114, 115, 116, 117],
+        107: [123, 124, 124, 126, 127, 128, 129]
+    },
+    pad: {
+        50:  [57, 57, 58, 59, 59, 60, 60],
+        90:  [69, 70, 70, 71, 72, 72, 73],
+        95:  [72, 73, 73, 74, 75, 75, 75],
+        107: [84, 85, 85, 86, 87, 87, 87]
+    }
+};
+
+TABLAS_PA_NNA.nino[9] = {
+    talla: [126, 128.3, 132.1, 136.3, 140.7, 144.7, 147.1],
+    pas: {
+        50:  [96, 97, 98, 99, 100, 101, 101],
+        90:  [107, 108, 109, 110, 112, 113, 114],
+        95:  [112, 112, 113, 115, 116, 118, 119],
+        107: [124, 124, 125, 127, 128, 130, 131]
+    },
+    pad: {
+        50:  [57, 58, 59, 60, 61, 62, 62],
+        90:  [70, 71, 72, 73, 74, 74, 74],
+        95:  [74, 74, 75, 76, 76, 77, 77],
+        107: [86, 86, 87, 88, 88, 89, 89]
+    }
+};
+
+
+// ==========================================
+// NIÑOS DE 10 A 12 AÑOS - MINSAL 2023
+// Anexo 5, página 45
+// ==========================================
+
+TABLAS_PA_NNA.nino[10] = {
+    talla: [130.2, 132.7, 136.7, 141.3, 145.9, 150.1, 152.7],
+    pas: {
+        50:  [97, 98, 99, 100, 101, 102, 103],
+        90:  [108, 109, 111, 112, 113, 115, 116],
+        95:  [112, 113, 114, 116, 118, 120, 121],
+        107: [124, 125, 126, 128, 130, 132, 133]
+    },
+    pad: {
+        50:  [59, 60, 61, 62, 63, 63, 64],
+        90:  [72, 73, 74, 74, 75, 75, 76],
+        95:  [76, 76, 77, 77, 78, 78, 78],
+        107: [88, 88, 89, 89, 90, 90, 90]
+    }
+};
+
+TABLAS_PA_NNA.nino[11] = {
+    talla: [134.7, 137.3, 141.5, 146.4, 151.3, 155.8, 158.6],
+    pas: {
+        50:  [99, 99, 101, 102, 103, 104, 106],
+        90:  [110, 111, 112, 114, 116, 117, 118],
+        95:  [114, 114, 116, 118, 120, 123, 124],
+        107: [126, 126, 128, 130, 132, 135, 136]
+    },
+    pad: {
+        50:  [61, 61, 62, 63, 63, 63, 63],
+        90:  [74, 74, 75, 75, 75, 76, 76],
+        95:  [77, 78, 78, 78, 78, 78, 78],
+        107: [89, 90, 89, 90, 90, 90, 90]
+    }
+};
+
+TABLAS_PA_NNA.nino[12] = {
+    talla: [140.3, 143, 147.5, 152.7, 157.9, 162.6, 165.5],
+    pas: {
+        50:  [101, 101, 102, 104, 106, 108, 109],
+        90:  [113, 114, 115, 117, 119, 121, 122],
+        95:  [116, 117, 118, 121, 124, 126, 128],
+        107: [128, 129, 130, 133, 136, 138, 140]
+    },
+    pad: {
+        50:  [61, 62, 62, 62, 62, 63, 63],
+        90:  [75, 75, 75, 75, 75, 76, 76],
+        95:  [78, 78, 78, 78, 78, 79, 79],
+        107: [90, 90, 90, 90, 90, 91, 91]
+    }
+};
+
+
+// ==========================================
+// CLASIFICACIÓN PA PEDIÁTRICA - MINSAL 2023
+// Edades de 1 a 12 años
+// ==========================================
+
+function clasificarPAPediatrica(edad, sexo, talla, pas, pad) {
+
+    const tabla = TABLAS_PA_NNA[sexo]?.[edad];
+
+    if (!tabla) {
+        return "No existen datos para esta edad y sexo";
+    }
+
+    // Seleccionar la columna según el intervalo de talla
+    const indiceTalla = obtenerIndiceTallaPA(tabla, talla);
+
+
+    // Obtener límites de PAS y PAD
+    const pasP90 = tabla.pas[90][indiceTalla];
+    const pasP95 = tabla.pas[95][indiceTalla];
+    const pasP95mas12 = tabla.pas[107][indiceTalla];
+
+    const padP90 = tabla.pad[90][indiceTalla];
+    const padP95 = tabla.pad[95][indiceTalla];
+    const padP95mas12 = tabla.pad[107][indiceTalla];
+
+    // Aplicar el menor valor entre percentil
+    // y umbral absoluto, según MINSAL
+
+    const limiteElevadaPAS = Math.min(pasP90, 120);
+    const limiteElevadaPAD = Math.min(padP90, 80);
+
+    const limiteEstadio1PAS = Math.min(pasP95, 130);
+    const limiteEstadio1PAD = Math.min(padP95, 80);
+
+    const limiteEstadio2PAS = Math.min(pasP95mas12, 140);
+    const limiteEstadio2PAD = Math.min(padP95mas12, 90);
+
+    // Clasificar según la categoría más alta
+
+    if (pas >= limiteEstadio2PAS || pad >= limiteEstadio2PAD) {
+        return "HTA estadio 2";
+    }
+
+    if (pas >= limiteEstadio1PAS || pad >= limiteEstadio1PAD) {
+        return "HTA estadio 1";
+    }
+
+    if (pas >= limiteElevadaPAS || pad >= limiteElevadaPAD) {
+        return "Presión arterial elevada";
+    }
+
+    return "Presión arterial normal";
+}
+
+
+// ==========================================
+// RESULTADO DETALLADO PA PEDIÁTRICA
+// Percentiles y clasificación - MINSAL 2023
+// ==========================================
+
+function obtenerResultadoPAPediatrica(edad, sexo, talla, pas, pad) {
+
+    
+    // ADOLESCENTES DE 13 A 19 AÑOS
+    // Clasificación por valores absolutos, sin percentiles
+
+    if (edad >= 13 && edad <= 19) {
+        return {
+            clasificacion: clasificarPAAdolescente(pas, pad),
+            percentilPAS: null,
+            percentilPAD: null,
+            percentilTalla: null
+        };
+    }
+
+
+    const tabla = TABLAS_PA_NNA[sexo]?.[edad];
+
+    if (!tabla) {
+        return null;
+    }
+
+    // Seleccionar la columna según el intervalo de talla
+    const indiceTalla = obtenerIndiceTallaPA(tabla, talla);
+
+
+    // Asignar percentil según el intervalo
+    function asignarPercentil(valor, limites) {
+
+        if (valor < limites[50]) {
+            return "Menor a P50";
+        }
+
+        if (valor < limites[90]) {
+            return "P50";
+        }
+
+        if (valor < limites[95]) {
+            return "P90";
+        }
+
+        if (valor < limites[107]) {
+            return "P95";
+        }
+
+        return "P95 + 12 mmHg o superior";
+    }
+
+    const percentilPAS = asignarPercentil(pas, {
+        50: tabla.pas[50][indiceTalla],
+        90: tabla.pas[90][indiceTalla],
+        95: tabla.pas[95][indiceTalla],
+        107: tabla.pas[107][indiceTalla]
+    });
+
+    const percentilPAD = asignarPercentil(pad, {
+        50: tabla.pad[50][indiceTalla],
+        90: tabla.pad[90][indiceTalla],
+        95: tabla.pad[95][indiceTalla],
+        107: tabla.pad[107][indiceTalla]
+    });
+
+    const clasificacion = clasificarPAPediatrica(
+        edad, sexo, talla, pas, pad
+    );
+
+    return {
+        clasificacion: clasificacion,
+        percentilPAS: percentilPAS,
+        percentilPAD: percentilPAD,
+        percentilTalla: PERCENTILES_TALLA_PA[indiceTalla]
+    };
+}
+
+
+function obtenerIndiceTallaPA(tabla, talla) {
+    let indice = 0;
+
+    for (let i = 0; i < tabla.talla.length; i++) {
+        if (talla >= tabla.talla[i]) {
+            indice = i;
+        } else {
+            break;
+        }
+    }
+
+    return indice;
+}
+
+document.getElementById("btnEvaluarPANNA").addEventListener("click", function () {
+
+    const pasIzquierdo = document.getElementById("pasIzquierdoNNA").value;
+    const padIzquierdo = document.getElementById("padIzquierdoNNA").value;
+
+    const pasDerecho = document.getElementById("pasDerechoNNA").value;
+    const padDerecho = document.getElementById("padDerechoNNA").value;
+
+    console.log("Brazo izquierdo:", pasIzquierdo, padIzquierdo);
+    console.log("Brazo derecho:", pasDerecho, padDerecho);
+
+    const edadNNA = document.getElementById("edadPANNA").value;
+    const sexoNNA = document.getElementById("sexoPANNA").value;
+    const tallaNNA = document.getElementById("tallaPANNA").value;
+
+    
+    // Validar datos del paciente
+    const edadNumero = Number(edadNNA);
+
+    if (!Number.isInteger(edadNumero) ||
+        edadNumero < 1 ||
+        edadNumero > 19 ||
+        !edadNNA.trim()) {
+        alert("Ingresa una edad válida entre 1 y 19 años.");
+        return;
+    }
+
+    if (edadNumero <= 12 &&
+        (!["nina", "nino"].includes(sexoNNA) ||
+         !tallaNNA.trim() ||
+         !Number.isFinite(Number(tallaNNA)) ||
+         Number(tallaNNA) <= 0)) {
+        alert("Completa el sexo y la talla del paciente.");
+        return;
+    }
+
+    // Validar que cada brazo tenga PAS y PAD completas
+    const izquierdoCompleto =
+        pasIzquierdo.trim() !== "" &&
+        padIzquierdo.trim() !== "";
+
+    const derechoCompleto =
+        pasDerecho.trim() !== "" &&
+        padDerecho.trim() !== "";
+
+    const izquierdoVacio =
+        pasIzquierdo.trim() === "" &&
+        padIzquierdo.trim() === "";
+
+    const derechoVacio =
+        pasDerecho.trim() === "" &&
+        padDerecho.trim() === "";
+
+    if ((!izquierdoCompleto && !izquierdoVacio) ||
+        (!derechoCompleto && !derechoVacio)) {
+        alert("Completa PAS y PAD del brazo que deseas evaluar.");
+        return;
+    }
+
+    if (izquierdoVacio && derechoVacio) {
+        alert("Ingresa al menos una medición de presión arterial.");
+        return;
+    }
+
+    // Comprobar valores numéricos de las mediciones ingresadas
+    const mediciones = [
+        ...(izquierdoCompleto ? [pasIzquierdo, padIzquierdo] : []),
+        ...(derechoCompleto ? [pasDerecho, padDerecho] : [])
+    ];
+
+    if (mediciones.some(valor =>
+        !Number.isFinite(Number(valor)) || Number(valor) <= 0
+    )) {
+        alert("Ingresa valores de presión arterial válidos.");
+        return;
+    }
+
+
+    console.log("Edad NNA:", edadNNA);
+    console.log("Sexo NNA:", sexoNNA);
+    console.log("Talla NNA:", tallaNNA);
+
+    
+    // VALIDAR LÍMITES DE MEDICIONES INICIALES NNA
+
+    const limitesPANNA = [
+        ["pasIzquierdoNNA", 40, 300],
+        ["padIzquierdoNNA", 20, 200],
+        ["pasDerechoNNA", 40, 300],
+        ["padDerechoNNA", 20, 200]
+    ];
+
+    for (const [id, minimo, maximo] of limitesPANNA) {
+        const valor = document.getElementById(id).value;
+
+        // Permitir campos vacíos cuando se evalúa un solo brazo
+        if (valor === "") continue;
+
+        const numero = Number(valor);
+
+        if (!Number.isFinite(numero) || numero < minimo || numero > maximo) {
+            alert("Los valores de presión arterial están fuera de los límites permitidos.");
+            return;
+        }
+    }
+
+    
+    // VALIDAR QUE PAS SEA MAYOR QUE PAD EN CADA BRAZO NNA
+
+    const brazosPANNA = [
+        ["pasIzquierdoNNA", "padIzquierdoNNA"],
+        ["pasDerechoNNA", "padDerechoNNA"]
+    ];
+
+    for (const [idPAS, idPAD] of brazosPANNA) {
+        const pas = document.getElementById(idPAS).value;
+        const pad = document.getElementById(idPAD).value;
+
+        // Solo comprobar brazos con ambas mediciones registradas
+        if (pas === "" || pad === "") continue;
+
+        if (Number(pas) <= Number(pad)) {
+            alert("La presión sistólica debe ser mayor que la diastólica.");
+            return;
+        }
+    }
+
+    // Evaluar presión arterial del brazo izquierdo
+    const resultadoIzquierdoNNA = izquierdoCompleto
+        ? (Number(edadNNA) <= 12
+        ? obtenerResultadoPAPediatrica(
+            Number(edadNNA),
+            sexoNNA,
+            Number(tallaNNA),
+            Number(pasIzquierdo),
+            Number(padIzquierdo)
+        )
+        : {
+            clasificacion: clasificarPAAdolescente(
+                Number(pasIzquierdo),
+                Number(padIzquierdo)
+            ),
+            percentilPAS: "No corresponde por edad",
+            percentilPAD: "No corresponde por edad"
+        })
+    : null;
+
+    console.log("Resultado brazo izquierdo NNA:", resultadoIzquierdoNNA);
+
+    
+    
+    // Evaluar presión arterial del brazo derecho
+    const resultadoDerechoNNA = derechoCompleto
+        ? (Number(edadNNA) <= 12
+            ? obtenerResultadoPAPediatrica(
+                Number(edadNNA),
+                sexoNNA,
+                Number(tallaNNA),
+                Number(pasDerecho),
+                Number(padDerecho)
+            )
+            : {
+                clasificacion: clasificarPAAdolescente(
+                    Number(pasDerecho),
+                    Number(padDerecho)
+                ),
+                percentilPAS: "No corresponde por edad",
+                percentilPAD: "No corresponde por edad"
+            })
+        : null;
+
+
+    console.log("Resultado brazo derecho NNA:", resultadoDerechoNNA);
+
+    
+    // MOSTRAR RESULTADOS DE AMBOS BRAZOS
+
+    // Brazo izquierdo
+    const contenedorIzquierdoNNA =
+        document.getElementById("resultadoIzquierdoNNA");
+
+    const textoIzquierdoNNA =
+        document.getElementById("textoResultadoIzquierdoNNA");
+
+    if (resultadoIzquierdoNNA) {
+        textoIzquierdoNNA.textContent =
+            resultadoIzquierdoNNA.clasificacion +
+            (Number(edadNNA) <= 12
+                ? " | PAS: " + resultadoIzquierdoNNA.percentilPAS +
+                " | PAD: " + resultadoIzquierdoNNA.percentilPAD
+                : "");
+
+        contenedorIzquierdoNNA.style.display = "block";
+    } else {
+        textoIzquierdoNNA.textContent = "";
+        contenedorIzquierdoNNA.style.display = "none";
+    }
+
+    // Brazo derecho
+    const contenedorDerechoNNA =
+        document.getElementById("resultadoDerechoNNA");
+
+    const textoDerechoNNA =
+        document.getElementById("textoResultadoDerechoNNA");
+
+    if (resultadoDerechoNNA) {  
+        textoDerechoNNA.textContent =
+            resultadoDerechoNNA.clasificacion +
+            (Number(edadNNA) <= 12
+                ? " | PAS: " + resultadoDerechoNNA.percentilPAS +
+                " | PAD: " + resultadoDerechoNNA.percentilPAD
+                : "");
+
+
+        contenedorDerechoNNA.style.display = "block";
+    } else {
+        textoDerechoNNA.textContent = "";
+        contenedorDerechoNNA.style.display = "none";
+    }
+
+
+    // DECISIÓN DEL EXAMINADOR EN NNA
+
+    const decisionPANNA =
+        document.getElementById("decisionPANNA");
+
+    const seleccionBrazoPANNA =
+        document.getElementById("seleccionBrazoPANNA");
+
+    if (izquierdoCompleto && derechoCompleto) {
+        // Ambos brazos evaluados: seleccionar brazo
+        decisionPANNA.style.display = "none";
+        seleccionBrazoPANNA.style.display = "block";
+
+    } else {
+        // Un solo brazo evaluado: continuar o finalizar
+        decisionPANNA.style.display = "block";
+        seleccionBrazoPANNA.style.display = "none";
+    }
+
+
+});
+
+
+ // CONTINUAR EVALUACIÓN DE PRESIÓN ARTERIAL NNA
+
+document.getElementById("btnContinuarPANNA").addEventListener("click", function () {
+
+    const pasIzq = document.getElementById("pasIzquierdoNNA").value;
+    const padIzq = document.getElementById("padIzquierdoNNA").value;
+
+    const pasDer = document.getElementById("pasDerechoNNA").value;
+    const padDer = document.getElementById("padDerechoNNA").value;
+
+    if (pasIzq !== "" && padIzq !== "" &&
+        pasDer === "" && padDer === "") {
+
+        alert("Continúe con la medición del brazo derecho.");
+
+    } else if (pasDer !== "" && padDer !== "" &&
+               pasIzq === "" && padIzq === "") {
+
+        alert("Continúe con la medición del brazo izquierdo.");
+
+    } else {
+        alert("Complete las mediciones iniciales de ambos brazos.");
+    }
+
+});
+
+
+// FINALIZAR EVALUACIÓN DE PRESIÓN ARTERIAL NNA
+
+document.getElementById("btnFinalizarPANNA").addEventListener("click", function () {
+
+    // Ocultar la decisión del examinador
+    document.getElementById("decisionPANNA").style.display = "none";
+
+    // Mostrar el botón para iniciar otra evaluación
+    document.getElementById("btnNuevaEvaluacionPANNA").style.display = "block";
+
+});
+
+
+// CONFIRMAR BRAZO PARA CONTINUAR EN NNA
+
+let brazoSeleccionadoPANNA = null;
+
+document.getElementById("btnConfirmarBrazoPANNA").addEventListener("click", function () {
+
+    const brazo = document.getElementById("brazoContinuarPANNA").value;
+
+    if (brazo === "") {
+        alert("Seleccione un brazo para continuar.");
+        return;
+    }
+
+    brazoSeleccionadoPANNA = brazo;
+
+    document.getElementById("textoBrazoSeleccionadoPANNA").textContent =
+        "Brazo seleccionado: " +
+        (brazo === "izquierdo" ? "izquierdo" : "derecho");
+
+    document.getElementById("medicionesAdicionalesPANNA").style.display = "block";
+
+    document.getElementById("seleccionBrazoPANNA").style.display = "none";
+
+});
+
+
+// CALCULAR PROMEDIO DE MEDICIONES ADICIONALES NNA
+
+document.getElementById("btnCalcularPromedioPANNA").addEventListener("click", function () {
+
+    const pas1 = Number(document.getElementById("pasAdicional1PANNA").value);
+    const pad1 = Number(document.getElementById("padAdicional1PANNA").value);
+    const pas2 = Number(document.getElementById("pasAdicional2PANNA").value);
+    const pad2 = Number(document.getElementById("padAdicional2PANNA").value);
+
+    const campos = [
+        "pasAdicional1PANNA",
+        "padAdicional1PANNA",
+        "pasAdicional2PANNA",
+        "padAdicional2PANNA"
+    ];
+
+    if (campos.some(id => document.getElementById(id).value === "")) {
+        alert("Complete las dos mediciones adicionales.");
+        return;
+    }
+
+    if ([pas1, pad1, pas2, pad2].some(valor => !Number.isFinite(valor) || valor <= 0)) {
+        alert("Ingrese valores válidos de presión arterial.");
+        return;
+    }
+
+    if (pas1 <= pad1 || pas2 <= pad2) {
+        alert("La presión sistólica debe ser mayor que la diastólica.");
+        return;
+    }
+
+    
+    // VALIDAR LÍMITES DE PRESIÓN ARTERIAL NNA
+
+    if (
+        pas1 < 40 || pas1 > 300 ||
+        pas2 < 40 || pas2 > 300 ||
+        pad1 < 20 || pad1 > 200 ||
+        pad2 < 20 || pad2 > 200
+    ) {
+        alert("Los valores de presión arterial están fuera de los límites permitidos.");
+        return;
+    }
+
+
+    const promedioPAS = (pas1 + pas2) / 2;
+    const promedioPAD = (pad1 + pad2) / 2;
+
+    const edad = Number(document.getElementById("edadPANNA").value);
+    const sexo = document.getElementById("sexoPANNA").value;
+    const talla = Number(document.getElementById("tallaPANNA").value);
+
+    const resultado = obtenerResultadoPAPediatrica(
+        edad,
+        sexo,
+        talla,
+        promedioPAS,
+        promedioPAD
+    );
+
+    if (!resultado) {
+        alert("No fue posible clasificar el promedio. Revise los datos del paciente.");
+        return;
+    }
+
+    let texto =
+        "Promedio: " +
+        promedioPAS.toFixed(1) + "/" +
+        promedioPAD.toFixed(1) + " mmHg" +
+        " | " + resultado.clasificacion;
+
+    if (edad <= 12) {
+        texto +=
+            " | PAS: " + resultado.percentilPAS +
+            " | PAD: " + resultado.percentilPAD;
+    }
+
+    document.getElementById("textoPromedioPANNA").textContent = texto;
+    document.getElementById("resultadoPromedioPANNA").style.display = "block";
+
+    document.getElementById("btnNuevaEvaluacionPANNA").style.display = "block";
+
+});
+
+
+// NUEVA EVALUACIÓN DE PRESIÓN ARTERIAL NNA
+
+document.getElementById("btnNuevaEvaluacionPANNA").addEventListener("click", function () {
+
+    // Limpiar los campos
+    const campos = [
+        "edadPANNA",
+        "sexoPANNA",
+        "tallaPANNA",
+        "pasIzquierdoNNA",
+        "padIzquierdoNNA",
+        "pasDerechoNNA",
+        "padDerechoNNA",
+        "brazoContinuarPANNA",
+        "pasAdicional1PANNA",
+        "padAdicional1PANNA",
+        "pasAdicional2PANNA",
+        "padAdicional2PANNA"
+    ];
+
+    campos.forEach(function (id) {
+        document.getElementById(id).value = "";
+    });
+
+    // Ocultar resultados y controles
+    const elementos = [
+        "resultadoIzquierdoNNA",
+        "resultadoDerechoNNA",
+        "decisionPANNA",
+        "seleccionBrazoPANNA",
+        "medicionesAdicionalesPANNA",
+        "resultadoPromedioPANNA",
+        "btnNuevaEvaluacionPANNA",
+        "datosPercentilesPANNA"
+    ];
+
+    elementos.forEach(function (id) {
+        document.getElementById(id).style.display = "none";
+    });
+
+    // Limpiar los textos
+    [
+        "textoResultadoIzquierdoNNA",
+        "textoResultadoDerechoNNA",
+        "textoBrazoSeleccionadoPANNA",
+        "textoPromedioPANNA"
+    ].forEach(function (id) {
+        document.getElementById(id).textContent = "";
+    });
+
+    brazoSeleccionadoPANNA = null;
+
+});
+

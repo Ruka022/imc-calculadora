@@ -346,3 +346,339 @@ body {
 .fila-resultado strong:last-child {
     text-align: right;
 }
+
+/* =========================
+   MÓDULOS PRINCIPALES
+   ========================= */
+
+.modulos {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 25px;
+}
+
+.modulos button {
+    flex: 1;
+    min-width: 0;
+    background-color: #e0e0e0;
+    color: #333;
+    font-size: 14px;
+    padding: 12px 6px;
+}
+
+.modulos button.activo {
+    background-color: #4a90e2;
+    color: white;
+}
+
+/* CONTENEDOR DE BRAZOS */
+.contenedor-brazos {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+    margin-top: 20px;
+}
+
+/* TARJETAS DE CADA BRAZO */
+.tarjeta-brazo {
+    min-width: 0;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    box-sizing: border-box;
+}
+
+.tarjeta-brazo h4 {
+    text-align: center;
+    margin-top: 0;
+}
+
+.tarjeta-brazo input,
+.tarjeta-brazo button {
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+}
+
+
+/* RESULTADOS DE PRESIÓN ARTERIAL POR BRAZO */
+
+#resultadoPA1,
+#resultadoPADerecho {
+    margin-top: 12px;
+    padding: 10px 6px;
+    background-color: #f0f6ff;
+    border-radius: 8px;
+    text-align: center;
+}
+
+#textoResultadoPA1,
+#textoResultadoPADerecho {
+    font-size: 13px;
+    line-height: 1.4;
+    overflow-wrap: break-word;
+    margin: 0;
+}
+
+/* RESULTADO FINAL DE PRESIÓN ARTERIAL */
+
+#resultadoPromedioPA {
+    margin-top: 20px;
+    padding: 16px 12px;
+    background-color: #e3f2fd;
+    border: 1px solid #bbdefb;
+    border-radius: 12px;
+    text-align: center;
+}
+
+#textoPromedioPA {
+    margin: 0;
+    font-size: 17px;
+    font-weight: bold;
+    line-height: 1.5;
+    color: #1565c0;
+    overflow-wrap: break-word;
+}
+
+/* TARJETAS DE MEDICIONES ADICIONALES */
+
+.tarjeta-medicion-pa {
+    padding: 16px;
+    margin: 14px 0;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    background-color: #fafcff;
+    box-sizing: border-box;
+}
+
+.tarjeta-medicion-pa h4 {
+    margin: 0 0 14px;
+    text-align: center;
+    color: #333;
+}
+
+.tarjeta-medicion-pa label {
+    display: block;
+    margin-top: 10px;
+    font-size: 15px;
+}
+
+.tarjeta-medicion-pa input {
+    width: 100%;
+}
+
+/* BOTONES CONTINUAR Y FINALIZAR - PRESIÓN ARTERIAL */
+
+#decisionPAAdulto[style*="display: block"] {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+    margin-top: 20px;
+}
+
+#decisionPAAdulto p {
+    grid-column: 1 / -1;
+    text-align: center;
+    margin: 0 0 5px;
+}
+
+#btnContinuarPA {
+    background-color: #4a90e2;
+    color: white;
+}
+
+#btnFinalizarPA {
+    background-color: #e0e0e0;
+    color: #333;
+}
+
+/* DISEÑO DE BOTONES DE EVALUACIÓN DE PA */
+
+/* ESPACIADO DE BOTONES DE PRESIÓN ARTERIAL */
+
+#btnEvaluarPA1 {
+    background-color: #4a90e2;
+    color: white;
+    border-radius: 8px;
+    margin-top: 12px;
+    margin-bottom: 0;
+}
+
+#btnNuevaEvaluacionPA {
+    background-color: #e0e0e0;
+    color: #333;
+    border-radius: 8px;
+    margin-top: 10px;
+    margin-bottom: 0;
+}
+
+/* ESPACIADO DEL BOTÓN CONFIRMAR BRAZO */
+
+#btnConfirmarBrazoPA {
+    margin-top: 14px;
+}
+
+/* ANIMACIÓN DE MEDICIONES ADICIONALES */
+
+@keyframes aparecerFormularioPA {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+#medicionesAdicionalesPA:not([style*="display: none"]) {
+    animation: aparecerFormularioPA 0.5s ease-out both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    #medicionesAdicionalesPA:not([style*="display: none"]) {
+        animation: none;
+    }
+}
+
+/* ANIMACIÓN DE RESULTADOS DE PRESIÓN ARTERIAL */
+
+#resultadoPA1:not([style*="display: none"]),
+#resultadoPADerecho:not([style*="display: none"]) {
+    animation: aparecerFormularioPA 0.5s ease-out both;
+}
+
+/* ANIMACIÓN DEL SELECTOR DE BRAZO */
+
+#seleccionBrazoPA:not([style*="display: none"]) {
+    animation: aparecerFormularioPA 0.5s ease-out both;
+}
+
+/* ANIMACIÓN DEL RESULTADO FINAL DE PRESIÓN ARTERIAL */
+
+#resultadoPromedioPA:not([style*="display: none"]) {
+    animation: aparecerFormularioPA 0.5s ease-out both;
+}
+
+
+/* =========================================
+   PRESIÓN ARTERIAL NNA
+   MISMO DISEÑO QUE EL MÓDULO ADULTO
+   ========================================= */
+
+/* Resultados iniciales por brazo */
+
+#resultadoIzquierdoNNA,
+#resultadoDerechoNNA {
+    margin-top: 12px;
+    padding: 10px 6px;
+    background-color: #f0f6ff;
+    border-radius: 8px;
+    text-align: center;
+}
+
+#textoResultadoIzquierdoNNA,
+#textoResultadoDerechoNNA {
+    font-size: 13px;
+    line-height: 1.4;
+    overflow-wrap: break-word;
+    margin: 0;
+}
+
+/* Resultado final del promedio */
+
+#resultadoPromedioPANNA {
+    margin-top: 20px;
+    padding: 16px 12px;
+    background-color: #e3f2fd;
+    border: 1px solid #bbdefb;
+    border-radius: 12px;
+    text-align: center;
+}
+
+#textoPromedioPANNA {
+    margin: 0;
+    font-size: 17px;
+    font-weight: bold;
+    line-height: 1.5;
+    color: #1565c0;
+    overflow-wrap: break-word;
+}
+
+/* Decisión de continuar o finalizar */
+
+#decisionPANNA[style*="display: block"] {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+    margin-top: 20px;
+}
+
+#decisionPANNA p {
+    grid-column: 1 / -1;
+    text-align: center;
+    margin: 0 0 5px;
+}
+
+#btnContinuarPANNA {
+    background-color: #4a90e2;
+    color: white;
+}
+
+#btnFinalizarPANNA {
+    background-color: #e0e0e0;
+    color: #333;
+}
+
+/* Botón principal de evaluación */
+
+#btnEvaluarPANNA {
+    background-color: #4a90e2;
+    color: white;
+    border-radius: 8px;
+    margin-top: 12px;
+    margin-bottom: 0;
+}
+
+/* Botón para nueva evaluación */
+
+#btnNuevaEvaluacionPANNA {
+    background-color: #e0e0e0;
+    color: #333;
+    border-radius: 8px;
+    margin-top: 10px;
+    margin-bottom: 0;
+}
+
+/* Selector de brazo */
+
+#seleccionBrazoPANNA {
+    margin-top: 20px;
+}
+
+#btnConfirmarBrazoPANNA {
+    margin-top: 14px;
+}
+
+/* Animaciones iguales al módulo adulto */
+
+#medicionesAdicionalesPANNA:not([style*="display: none"]),
+#resultadoIzquierdoNNA:not([style*="display: none"]),
+#resultadoDerechoNNA:not([style*="display: none"]),
+#seleccionBrazoPANNA:not([style*="display: none"]),
+#resultadoPromedioPANNA:not([style*="display: none"]) {
+    animation: aparecerFormularioPA 0.5s ease-out both;
+}
+
+/* Respetar preferencias de movimiento */
+
+@media (prefers-reduced-motion: reduce) {
+    #medicionesAdicionalesPANNA:not([style*="display: none"]),
+    #resultadoIzquierdoNNA:not([style*="display: none"]),
+    #resultadoDerechoNNA:not([style*="display: none"]),
+    #seleccionBrazoPANNA:not([style*="display: none"]),
+    #resultadoPromedioPANNA:not([style*="display: none"]) {
+        animation: none;
+    }
+}

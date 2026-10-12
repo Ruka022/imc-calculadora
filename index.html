@@ -18,7 +18,36 @@
 
         <h1>EnferMétrica</h1>
 
-        <p class="subtitulo">Chile</p>
+        <p class="subtitulo">Desarrollado por Pablo Díaz Moscoso</p>
+
+        <!-- ========================= -->
+        <!-- MÓDULOS PRINCIPALES -->
+        <!-- ========================= -->
+
+        <div class="modulos">
+
+            <button
+                type="button"
+                id="btnAntropometria"
+                onclick="seleccionarModulo('antropometria')"
+                class="activo">
+                Antropometría
+            </button>
+
+           <button
+                type="button"
+                id="btnPresionArterial"
+                onclick="seleccionarModulo('presionArterial')">
+                Presión arterial
+            </button>
+
+        </div>
+
+        <!-- ========================= -->
+        <!-- MÓDULO ANTROPOMETRÍA -->
+        <!-- ========================= -->
+
+        <div id="moduloAntropometria">
 
         <p>Tipo de evaluación</p>
 
@@ -212,6 +241,316 @@
             <p id="categoria">Ingresa tus datos</p>
 
         </div>
+
+        <!-- FIN MÓDULO ANTROPOMETRÍA -->
+         
+        </div>
+
+
+        <!-- ========================= -->
+        <!-- MÓDULO PRESIÓN ARTERIAL -->
+        <!-- ========================= -->
+
+        <div id="moduloPresionArterial" style="display: none;">
+
+            <h2>Presión arterial</h2>
+
+            <div class="tipo-evaluación">
+                <button type="button" id="btnPAAdulto" onclick="seleccionarTipoPA('adulto')" class="activo">
+                    Adultos
+                </button>
+
+                <button type="button" id="btnPANNA" onclick="seleccionarTipoPA('nna')">
+                    NNA
+                </button>
+            </div>
+
+            <!-- ========================= -->
+            <!-- PRESIÓN ARTERIAL NNA -->
+            <!-- ========================= -->
+
+            <div id="camposPANNA" style="display: none;">
+
+                <h3>Evaluación de presión arterial en NNA</h3>
+
+                <label for="edadPANNA">Edad (años)</label>
+                <input
+                    type="number"
+                    id="edadPANNA"
+                    min="1"
+                    max="19"
+                    step="1"
+                    placeholder="Ej: 8">
+
+                <div id="datosPercentilesPANNA" style="display: none;">
+
+                    <label for="sexoPANNA">Sexo</label>
+                    <select id="sexoPANNA">
+                        <option value="">Seleccionar</option>
+                        <option value="nino">Niño</option>
+                        <option value="nina">Niña</option>
+                    </select>
+
+                    <label for="tallaPANNA">Talla (cm)</label>
+                    <input
+                        type="number"
+                        id="tallaPANNA"
+                        min="50"
+                        max="220"
+                        step="0.1"
+                        placeholder="Ej: 125.5">
+
+                </div>
+
+                <!-- MEDICIONES INICIALES DE PRESIÓN ARTERIAL NNA -->
+
+                <div class="contenedor-brazos">
+
+                    <!-- BRAZO IZQUIERDO -->
+                    <div class="tarjeta-brazo">
+                        <h4>Brazo izquierdo</h4>
+
+                        <label for="pasIzquierdoNNA">PAS (mmHg)</label>
+                        <input type="number" id="pasIzquierdoNNA"
+                            min="40" max="300" placeholder="Ej: 100">
+
+                        <label for="padIzquierdoNNA">PAD (mmHg)</label>
+                        <input type="number" id="padIzquierdoNNA"
+                            min="20" max="200" placeholder="Ej: 60">
+
+                        <div id="resultadoIzquierdoNNA" style="display: none;">
+                            <p id="textoResultadoIzquierdoNNA"></p>
+                        </div>
+                    </div>
+
+                    <!-- BRAZO DERECHO -->
+                    <div class="tarjeta-brazo">
+                        <h4>Brazo derecho</h4>
+
+                        <label for="pasDerechoNNA">PAS (mmHg)</label>
+                        <input type="number" id="pasDerechoNNA"
+                            min="40" max="300" placeholder="Ej: 100">
+
+                        <label for="padDerechoNNA">PAD (mmHg)</label>
+                        <input type="number" id="padDerechoNNA"
+                            min="20" max="200" placeholder="Ej: 60">
+
+                        <div id="resultadoDerechoNNA" style="display: none;">
+                            <p id="textoResultadoDerechoNNA"></p>
+                        </div>
+                    </div>
+
+                </div>
+
+                <button type="button" id="btnEvaluarPANNA">
+                    Evaluar mediciones
+                </button>
+
+                <!-- SELECCIÓN DE BRAZO PARA CONTINUAR EN NNA -->
+                 
+                <!-- DECISIÓN DEL EXAMINADOR NNA -->
+                <div id="decisionPANNA" style="display: none;">
+
+                    <p>¿Desea continuar con la evaluación?</p>
+
+                    <button type="button" id="btnContinuarPANNA">
+                        Continuar
+                    </button>
+
+                    <button type="button" id="btnFinalizarPANNA">
+                        Finalizar
+                    </button>
+
+                </div>
+
+                <div id="seleccionBrazoPANNA" style="display: none; margin-top: 20px;">
+
+                    <label for="brazoContinuarPANNA">
+                        Seleccione el brazo para continuar:
+                    </label>
+
+                    <select id="brazoContinuarPANNA">
+                        <option value="">Seleccione un brazo</option>
+                        <option value="izquierdo">Brazo izquierdo</option>
+                        <option value="derecho">Brazo derecho</option>
+                    </select>
+
+                    <button type="button" id="btnConfirmarBrazoPANNA">
+                        Confirmar brazo
+                    </button>
+
+                </div>
+
+                <!-- MEDICIONES ADICIONALES NNA -->
+                <div id="medicionesAdicionalesPANNA" style="display: none;">
+
+                    <h3>Mediciones adicionales</h3>
+
+                    <p id="textoBrazoSeleccionadoPANNA"></p>
+
+                    <div class="tarjeta-medicion-pa">
+                        <h4>Medición adicional 1</h4>
+
+                        <label for="pasAdicional1PANNA">PAS (mmHg)</label>
+                        <input type="number" id="pasAdicional1PANNA" min="40" max="300">
+
+                        <label for="padAdicional1PANNA">PAD (mmHg)</label>
+                        <input type="number" id="padAdicional1PANNA" min="20" max="200">
+                    </div>
+
+                    <div class="tarjeta-medicion-pa">
+                        <h4>Medición adicional 2</h4>
+
+                        <label for="pasAdicional2PANNA">PAS (mmHg)</label>
+                        <input type="number" id="pasAdicional2PANNA" min="40" max="300">
+
+                        <label for="padAdicional2PANNA">PAD (mmHg)</label>
+                        <input type="number" id="padAdicional2PANNA" min="20" max="200">
+                    </div>
+
+                    <button type="button" id="btnCalcularPromedioPANNA">
+                        Calcular promedio
+                    </button>
+
+                    <div id="resultadoPromedioPANNA" style="display: none;">
+                        <p id="textoPromedioPANNA"></p>
+                    </div>
+
+                </div>
+
+                <!-- REINICIAR EVALUACIÓN DE PA NNA -->
+                <button type="button" id="btnNuevaEvaluacionPANNA" style="display: none;">
+                    Nueva evaluación
+                </button>
+
+            </div>
+
+            <div id="camposPAAdulto">
+                <h3>Evaluación de presión arterial en adultos</h3>
+
+                <div class="contenedor-brazos">
+
+                   <!-- BRAZO IZQUIERDO -->
+                    <div class="tarjeta-brazo">
+                        <h4>Brazo izquierdo</h4>
+
+                        <label for="pas1">PAS (mmHg)</label>
+                        <input type="number" id="pas1" min="40" max="300"
+                            placeholder="Ej: 120">
+
+                        <label for="pad1">PAD (mmHg)</label>
+                        <input type="number" id="pad1" min="20" max="200"
+                            placeholder="Ej: 80">
+
+                        <div id="resultadoPA1" style="display: none;">
+                            <p id="textoResultadoPA1"></p>
+                        </div>
+                    </div>
+
+                    <!-- BRAZO DERECHO -->
+                    <div class="tarjeta-brazo">
+                        <h4>Brazo derecho</h4>
+
+                        <label for="pasDerecho">PAS (mmHg)</label>
+                        <input type="number" id="pasDerecho" min="40" max="300"
+                            placeholder="Ej: 120">
+
+                        <label for="padDerecho">PAD (mmHg)</label>
+                        <input type="number" id="padDerecho" min="20" max="200"
+                            placeholder="Ej: 80">
+
+                        <div id="resultadoPADerecho" style="display: none;">
+                            <p id="textoResultadoPADerecho"></p>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- BOTÓN GENERAL DE EVALUACIÓN -->
+                <button type="button" id="btnEvaluarPA1">
+                    Evaluar mediciones
+                </button>
+
+                <!-- SELECCIÓN DEL BRAZO PARA CONTINUAR -->
+                <div id="seleccionBrazoPA" style="display: none;">
+
+                    <h3>Seleccione el brazo para continuar</h3>
+
+                    <label for="brazoContinuarPA">Brazo:</label>
+
+                    <select id="brazoContinuarPA">
+                        <option value="">Seleccione un brazo</option>
+                        <option value="izquierdo">Brazo izquierdo</option>
+                        <option value="derecho">Brazo derecho</option>
+                    </select>
+
+                    <button type="button" id="btnConfirmarBrazoPA">
+                        Confirmar brazo
+                    </button>
+
+                </div>
+
+                <!-- MEDICIONES ADICIONALES DE PA -->
+                <div id="medicionesAdicionalesPA" style="display: none;">
+
+                    <h3>Mediciones adicionales</h3>
+                    <p id="textoBrazoSeleccionadoPA"></p>
+
+                    <!-- MEDICIÓN ADICIONAL 1 -->
+                    <div class="tarjeta-medicion-pa">
+                        <h4>Medición adicional 1</h4>
+
+                        <label for="pasAdicional1">PAS (mmHg)</label>
+                        <input type="number" id="pasAdicional1" min="40" max="300">
+
+                        <label for="padAdicional1">PAD (mmHg)</label>
+                        <input type="number" id="padAdicional1" min="20" max="200">
+                    </div>
+
+                    <!-- MEDICIÓN ADICIONAL 2 -->
+                    <div class="tarjeta-medicion-pa">
+                        <h4>Medición adicional 2</h4>
+
+                        <label for="pasAdicional2">PAS (mmHg)</label>
+                        <input type="number" id="pasAdicional2" min="40" max="300">
+
+                        <label for="padAdicional2">PAD (mmHg)</label>
+                        <input type="number" id="padAdicional2" min="20" max="200">
+                    </div>
+
+                    <button type="button" id="btnCalcularPromedioPA">
+                        Calcular promedio
+                    </button>
+
+                    <div id="resultadoPromedioPA" style="display: none;">
+                        <p id="textoPromedioPA"></p>
+                    </div>
+
+                </div>
+
+                <!-- DECISIÓN DEL EXAMINADOR -->
+                <div id="decisionPAAdulto" style="display: none;">
+                    <p>¿Desea continuar con la evaluación?</p>
+
+                    <button type="button" id="btnContinuarPA">
+                        Continuar
+                    </button>
+
+                    <button type="button" id="btnFinalizarPA">
+                        Finalizar
+                    </button>
+                </div>
+
+                <!-- REINICIAR EVALUACIÓN DE PA -->
+                <button type="button" id="btnNuevaEvaluacionPA" style="display: none;">
+                    Nueva evaluación
+                </button>
+
+            </div>
+
+
+        </div>
+
 
     </div>
 

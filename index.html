@@ -16,6 +16,71 @@
 
     <div class="calculadora">
 
+        
+        <!-- NUEVA PANTALLA DE INICIO -->
+        <div id="pantallaInicio" class="pantalla-inicio">
+
+            <div class="inicio-encabezado">
+                <div class="inicio-logo">♡</div>
+                <h2>EnferMétrica</h2>
+                <p>Tu apoyo en cada evaluación clínica.</p>
+            </div>
+
+            <div class="inicio-contenido">
+                <h3>¿Qué deseas evaluar hoy?</h3>
+
+                <button type="button"
+                        class="inicio-tarjeta"
+                        id="inicioAntropometria">
+                    <span class="inicio-icono">📏</span>
+                    <span class="inicio-texto">
+                        <strong>Antropometría</strong>
+                        <small>IMC, estado nutricional y perímetros</small>
+                        <small>Adulto · Persona mayor · NNA</small>
+                    </span>
+                    <span>›</span>
+                </button>
+
+                <button type="button"
+                        class="inicio-tarjeta"
+                        id="inicioPresionArterial">
+                    <span class="inicio-icono">💓</span>
+                    <span class="inicio-texto">
+                        <strong>Presión arterial</strong>
+                        <small>Mediciones, clasificación y promedio</small>
+                        <small>Adultos · NNA</small>
+                    </span>
+                    <span>›</span>
+                </button>
+
+                <p class="inicio-aviso">
+                    Herramienta de apoyo clínico.
+                    Interpretar los resultados según los protocolos vigentes.
+                </p>
+
+                <p class="inicio-autor">
+                    Desarrollado por Pablo Díaz Moscoso
+                </p>
+            </div>
+
+        </div>
+        <!-- FIN PANTALLA DE INICIO -->
+
+        <div id="contenidoAplicacion" style="display: none;">
+
+        
+        <button type="button" id="btnVolverInicio" aria-label="Volver al inicio">
+            <svg width="22" height="22" viewBox="0 0 24 24"
+                fill="none" stroke="currentColor"
+                stroke-width="2.2" stroke-linecap="round"
+                stroke-linejoin="round" aria-hidden="true">
+                <path d="M19 12H5"></path>
+                <path d="M12 19l-7-7 7-7"></path>
+            </svg>
+        </button>
+
+
+
         <h1>EnferMétrica</h1>
 
         <p class="subtitulo">Desarrollado por Pablo Díaz Moscoso</p>
@@ -49,9 +114,132 @@
 
         <div id="moduloAntropometria">
 
-        <p>Tipo de evaluación</p>
+        
+        <!-- PANTALLA DE SELECCIÓN ANTROPOMÉTRICA -->
+        <div id="pantallaSeleccionAntropometria">
 
-        <div class="tipo-evaluación">
+            <h2>Antropometría</h2>
+            <p>Selecciona el tipo de paciente que deseas evaluar.</p>
+
+            
+            <div class="seleccion-pacientes">
+
+                <!-- ADULTO -->
+                <button type="button" class="tarjeta-paciente"
+                        data-tipo="adulto">
+
+                    <span class="paciente-icono">
+                        <svg width="27" height="27" viewBox="0 0 24 24"
+                            fill="none" stroke="currentColor"
+                            stroke-width="1.8" stroke-linecap="round"
+                            stroke-linejoin="round" aria-hidden="true">
+                            <circle cx="12" cy="8" r="4"></circle>
+                            <path d="M5 21v-2a7 7 0 0 1 14 0v2"></path>
+                        </svg>
+                    </span>
+
+                    <span class="paciente-texto">
+                        <strong>Adulto</strong>
+                        <small>Evaluación antropométrica</small>
+                    </span>
+
+                    <span class="paciente-flecha">›</span>
+                </button>
+
+                <!-- PERSONA MAYOR -->
+                <button type="button" class="tarjeta-paciente"
+                        data-tipo="adultoMayor">
+
+                    <span class="paciente-icono">
+                        <svg width="27" height="27" viewBox="0 0 24 24"
+                            fill="none" stroke="currentColor"
+                            stroke-width="1.8" stroke-linecap="round"
+                            stroke-linejoin="round" aria-hidden="true">
+                            <circle cx="10" cy="7" r="3.5"></circle>
+                            <path d="M4 20v-2a6 6 0 0 1 12 0v2"></path>
+                            <path d="M18 12v9"></path>
+                            <path d="M18 12c2 0 3 1 3 3"></path>
+                        </svg>
+                    </span>
+
+                    <span class="paciente-texto">
+                        <strong>Persona mayor</strong>
+                        <small>Evaluación antropométrica</small>
+                    </span>
+
+                    <span class="paciente-flecha">›</span>
+                </button>
+
+                <!-- NIÑOS, NIÑAS Y ADOLESCENTES -->
+                <button type="button" class="tarjeta-paciente"
+                        data-tipo="pediatrico">
+
+                    <span class="paciente-icono">
+                        <svg width="27" height="27" viewBox="0 0 24 24"
+                            fill="none" stroke="currentColor"
+                            stroke-width="1.8" stroke-linecap="round"
+                            stroke-linejoin="round" aria-hidden="true">
+                            <path d="M9 3h6"></path>
+                            <path d="M12 3v2"></path>
+                            <circle cx="12" cy="11" r="6"></circle>
+                            <path d="M9 10h.01M15 10h.01"></path>
+                            <path d="M10 13c1.2 1 2.8 1 4 0"></path>
+                            <path d="M6 21c1-3 3-4 6-4s5 1 6 4"></path>
+                        </svg>
+                    </span>
+
+                    <span class="paciente-texto">
+                        <strong>Niños, niñas y adolescentes</strong>
+                        <small>Evaluación antropométrica</small>
+                    </span>
+
+                    <span class="paciente-flecha">›</span>
+                </button>
+
+            </div>
+
+
+        </div>
+        <!-- FIN PANTALLA DE SELECCIÓN -->
+
+
+        <div id="contenidoEvaluacionAntropometria" style="display: none;">
+
+        
+        <button type="button" id="btnVolverSeleccionAntropometria"
+                aria-label="Volver a selección de pacientes">
+            <svg width="22" height="22" viewBox="0 0 24 24"
+                fill="none" stroke="currentColor"
+                stroke-width="2.2" stroke-linecap="round"
+                stroke-linejoin="round" aria-hidden="true">
+                <path d="M19 12H5"></path>
+                <path d="M12 19l-7-7 7-7"></path>
+            </svg>
+        </button>
+
+        
+        <!-- TARJETA DE IDENTIFICACIÓN DEL PACIENTE -->
+        <div class="encabezado-paciente">
+            <div class="encabezado-paciente-icono" id="iconoPacienteAntropometria">
+                <svg width="27" height="27" viewBox="0 0 24 24"
+                    fill="none" stroke="currentColor"
+                    stroke-width="1.8" stroke-linecap="round"
+                    stroke-linejoin="round" aria-hidden="true">
+                    <circle cx="12" cy="8" r="4"></circle>
+                    <path d="M5 21v-2a7 7 0 0 1 14 0v2"></path>
+                </svg>
+            </div>
+
+            <div class="encabezado-paciente-texto">
+                <span>ANTROPOMETRÍA</span>
+                <h2 id="tituloPacienteAntropometria">Adulto</h2>
+                <p>Evaluación antropométrica</p>
+            </div>
+        </div>
+
+
+
+        <div class="tipo-evaluación" style="display: none;">
 
             <button
                 type="button"
@@ -242,6 +430,9 @@
 
         </div>
 
+        <!-- FIN FORMULARIO ANTROPOMETRÍA -->
+        </div> <!-- FIN contenidoEvaluacionAntropometria -->
+
         <!-- FIN MÓDULO ANTROPOMETRÍA -->
          
         </div>
@@ -253,9 +444,109 @@
 
         <div id="moduloPresionArterial" style="display: none;">
 
-            <h2>Presión arterial</h2>
+                    
+            <!-- PANTALLA DE SELECCIÓN - PRESIÓN ARTERIAL -->
+            <div id="pantallaSeleccionPA">
 
-            <div class="tipo-evaluación">
+                <h2>Presión arterial</h2>
+                <p>Selecciona el tipo de paciente que deseas evaluar.</p>
+
+                <div class="seleccion-pacientes">
+
+                    <!-- ADULTOS -->
+                    <button type="button" class="tarjeta-paciente tarjeta-pa"
+                            data-tipo="adulto">
+
+                        <span class="paciente-icono">
+                            <svg width="27" height="27" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor"
+                                stroke-width="1.8" stroke-linecap="round"
+                                stroke-linejoin="round" aria-hidden="true">
+                                <path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8Z"/>
+                                <path d="M3.5 12h4l2-3 3.5 6 2-3h5"/>
+                            </svg>
+                        </span>
+
+                        <span class="paciente-texto">
+                            <strong>Adultos</strong>
+                            <small>Evaluación de presión arterial</small>
+                        </span>
+
+                        <span class="paciente-flecha">›</span>
+                    </button>
+
+                    <!-- NIÑOS, NIÑAS Y ADOLESCENTES -->
+                    <button type="button" class="tarjeta-paciente tarjeta-pa"
+                            data-tipo="nna">
+
+                        <span class="paciente-icono">
+                            <svg width="27" height="27" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor"
+                                stroke-width="1.8" stroke-linecap="round"
+                                stroke-linejoin="round" aria-hidden="true">
+                                <path d="M9 3h6"/>
+                                <path d="M12 3v2"/>
+                                <circle cx="12" cy="11" r="6"/>
+                                <path d="M9 10h.01M15 10h.01"/>
+                                <path d="M10 13c1.2 1 2.8 1 4 0"/>
+                                <path d="M6 21c1-3 3-4 6-4s5 1 6 4"/>
+                            </svg>
+                        </span>
+
+                        <span class="paciente-texto">
+                            <strong>Niños, niñas y adolescentes</strong>
+                            <small>Evaluación de presión arterial</small>
+                        </span>
+
+                        <span class="paciente-flecha">›</span>
+                    </button>
+
+                </div>
+
+            </div>
+            <!-- FIN PANTALLA DE SELECCIÓN PA -->
+            
+            <div id="contenidoEvaluacionPA" style="display: none;">
+
+            
+                <button type="button" id="btnVolverSeleccionPA"
+                        aria-label="Volver a selección de pacientes">
+                    <svg width="22" height="22" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor"
+                        stroke-width="2.2" stroke-linecap="round"
+                        stroke-linejoin="round" aria-hidden="true">
+                        <path d="M19 12H5"></path>
+                        <path d="M12 19l-7-7 7-7"></path>
+                    </svg>
+                </button>
+
+                
+                    <!-- TARJETA DE IDENTIFICACIÓN - PRESIÓN ARTERIAL -->
+                    <div class="encabezado-paciente">
+
+                        <div class="encabezado-paciente-icono" id="iconoPacientePA">
+                            <svg width="27" height="27" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor"
+                                stroke-width="1.8" stroke-linecap="round"
+                                stroke-linejoin="round" aria-hidden="true">
+                                <path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8Z"/>
+                                <path d="M3.5 12h4l2-3 3.5 6 2-3h5"/>
+                            </svg>
+                        </div>
+
+                        <div class="encabezado-paciente-texto">
+                            <span>PRESIÓN ARTERIAL</span>
+                            <h2 id="tituloPacientePA">Adultos</h2>
+                            <p>Evaluación de presión arterial</p>
+                        </div>
+
+                    </div>
+
+
+
+            
+
+            <div class="tipo-evaluación" style="display: none;">
                 <button type="button" id="btnPAAdulto" onclick="seleccionarTipoPA('adulto')" class="activo">
                     Adultos
                 </button>
@@ -271,7 +562,7 @@
 
             <div id="camposPANNA" style="display: none;">
 
-                <h3>Evaluación de presión arterial en NNA</h3>
+                
 
                 <label for="edadPANNA">Edad (años)</label>
                 <input
@@ -426,7 +717,7 @@
             </div>
 
             <div id="camposPAAdulto">
-                <h3>Evaluación de presión arterial en adultos</h3>
+                
 
                 <div class="contenedor-brazos">
 
@@ -548,8 +839,12 @@
 
             </div>
 
+            </div>
+
 
         </div>
+
+        </div> <!-- FIN contenidoAplicacion -->
 
 
     </div>

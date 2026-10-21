@@ -1122,3 +1122,13 @@ body {
         }
     }
 }
+
+
+/* ESPACIO SEGURO PARA FORMULARIOS EN IPHONE */
+@supports (-webkit-touch-callout: none) {
+    @media (display-mode: standalone) {
+        #contenidoAplicacion {
+            padding-top: env(safe-area-inset-top, 0px);
+        }
+    }
+}

@@ -4672,3 +4672,161 @@ document.getElementById("btnNuevaEvaluacionPANNA").addEventListener("click", fun
 
 });
 
+
+/* =====================================
+   NAVEGACIÓN - NUEVA PANTALLA DE INICIO
+   ===================================== */
+
+function abrirModuloDesdeInicio(modulo) {
+    document.getElementById("pantallaInicio").style.display = "none";
+    document.getElementById("contenidoAplicacion").style.display = "block";
+
+    seleccionarModulo(modulo);
+
+    document.getElementById("btnVolverInicio").style.display = "flex";
+
+    window.scrollTo(0, 0);
+}
+
+// Tarjeta de Antropometría
+document.getElementById("inicioAntropometria").addEventListener("click", function () {
+    abrirModuloDesdeInicio("antropometria");
+});
+
+// Tarjeta de Presión arterial
+document.getElementById("inicioPresionArterial").addEventListener("click", function () {
+    abrirModuloDesdeInicio("presionArterial");
+});
+
+
+/* VOLVER A LA PANTALLA DE INICIO */
+
+document.getElementById("btnVolverInicio").addEventListener("click", function () {
+
+    // Ocultar los módulos
+    document.getElementById("contenidoAplicacion").style.display = "none";
+
+    // Mostrar la pantalla de inicio
+    document.getElementById("pantallaInicio").style.display = "block";
+
+    // Volver arriba de la pantalla
+    window.scrollTo(0, 0);
+
+});
+
+
+/* NAVEGACIÓN - SELECCIÓN ANTROPOMÉTRICA */
+
+
+document.querySelectorAll("#pantallaSeleccionAntropometria .tarjeta-paciente").forEach(function(tarjeta) {
+
+    tarjeta.addEventListener("click", function() {
+
+        const tipo = tarjeta.dataset.tipo;
+
+        
+        // Actualizar nombre del paciente
+        const nombresPacientes = {
+            adulto: "Adulto",
+            adultoMayor: "Persona mayor",
+            pediatrico: "Niños, niñas y adolescentes"
+        };
+
+        document.getElementById("tituloPacienteAntropometria").textContent =
+            nombresPacientes[tipo];
+
+        // Actualizar ícono del paciente
+        const iconoSeleccionado = tarjeta.querySelector(".paciente-icono svg");
+
+        document.getElementById("iconoPacienteAntropometria").innerHTML =
+            iconoSeleccionado.outerHTML;
+
+
+        // Ocultar pantalla de selección
+        document.getElementById("pantallaSeleccionAntropometria").style.display = "none";
+
+        // Mostrar formulario
+        document.getElementById("contenidoEvaluacionAntropometria").style.display = "block";
+
+        // Ocultar flecha de volver al inicio
+        document.getElementById("btnVolverInicio").style.display = "none";
+
+        // Utilizar la función clínica existente
+        seleccionarTipo(tipo);
+
+        // Volver al inicio de la pantalla
+        window.scrollTo(0, 0);
+
+    });
+
+});
+
+
+
+/* VOLVER A SELECCIÓN ANTROPOMÉTRICA */
+
+document.getElementById("btnVolverSeleccionAntropometria")
+    .addEventListener("click", function() {
+
+        // Ocultar formulario
+        document.getElementById("contenidoEvaluacionAntropometria")
+            .style.display = "none";
+
+        // Mostrar tarjetas de selección
+        document.getElementById("pantallaSeleccionAntropometria")
+            .style.display = "block";
+
+        // Mostrar nuevamente la flecha de volver al inicio
+        document.getElementById("btnVolverInicio").style.display = "flex";
+
+        // Volver arriba
+        window.scrollTo(0, 0);
+
+    });
+
+
+/* NAVEGACIÓN DE TARJETAS - PRESIÓN ARTERIAL */
+document.querySelectorAll("#pantallaSeleccionPA .tarjeta-pa").forEach(function(tarjeta) {
+    tarjeta.addEventListener("click", function() {
+        const tipo = tarjeta.dataset.tipo;
+
+        
+        // Actualizar nombre del paciente
+        const nombresPacientesPA = {
+            adulto: "Adultos",
+            nna: "Niños, niñas y adolescentes"
+        };
+
+        document.getElementById("tituloPacientePA").textContent =
+            nombresPacientesPA[tipo];
+
+        // Actualizar ícono del paciente
+        const iconoSeleccionadoPA = tarjeta.querySelector(".paciente-icono svg");
+
+        document.getElementById("iconoPacientePA").innerHTML =
+            iconoSeleccionadoPA.outerHTML;
+
+
+        document.getElementById("pantallaSeleccionPA").style.display = "none";
+        document.getElementById("contenidoEvaluacionPA").style.display = "block";
+        document.getElementById("btnVolverInicio").style.display = "none";
+
+        seleccionarTipoPA(tipo);
+
+        window.scrollTo(0, 0);
+    });
+});
+
+
+/* VOLVER A SELECCIÓN DE PACIENTES - PRESIÓN ARTERIAL */
+document.getElementById("btnVolverSeleccionPA").addEventListener("click", function() {
+
+    document.getElementById("contenidoEvaluacionPA").style.display = "none";
+
+    document.getElementById("pantallaSeleccionPA").style.display = "block";
+
+    document.getElementById("btnVolverInicio").style.display = "block";
+
+    window.scrollTo(0, 0);
+
+});

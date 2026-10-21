@@ -682,3 +682,444 @@ body {
         animation: none;
     }
 }
+
+
+/* =====================================
+   ENFERMÉTRICA - NUEVA PANTALLA DE INICIO
+   ===================================== */
+
+.pantalla-inicio {
+    background: #ffffff;
+    border-radius: 18px;
+    overflow: hidden;
+    margin: -30px -30px 25px;
+}
+
+
+.inicio-encabezado {
+    background: linear-gradient(145deg, #102d60, #1976d2);
+    color: white;
+    text-align: center;
+    padding: calc(42px + env(safe-area-inset-top, 0px)) 20px 38px;
+}
+
+
+.inicio-logo {
+    width: 68px;
+    height: 68px;
+    margin: 0 auto 16px;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 44px;
+    color: white;
+}
+
+.inicio-encabezado h2 {
+    font-size: 30px;
+    margin: 0 0 10px;
+    letter-spacing: -0.5px;
+}
+
+.inicio-encabezado p {
+    font-size: 14px;
+    opacity: 0.9;
+    margin: 0;
+}
+
+.inicio-contenido {
+    padding: 28px 20px 12px;
+}
+
+.inicio-contenido h3 {
+    font-size: 19px;
+    color: #19365c;
+    margin: 0 0 22px;
+}
+
+.calculadora .inicio-tarjeta {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    text-align: left;
+    padding: 20px 14px;
+    margin-bottom: 14px;
+    background: #ffffff;
+    border: 1px solid #dce7f3;
+    border-radius: 16px;
+    box-shadow: 0 4px 14px rgba(30, 65, 110, 0.07);
+    color: #19365c;
+}
+
+.inicio-tarjeta:active {
+    transform: scale(0.98);
+}
+
+.inicio-icono {
+    width: 48px;
+    height: 48px;
+    flex-shrink: 0;
+    border-radius: 14px;
+    background: #eaf3ff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 25px;
+}
+
+.inicio-texto {
+    display: flex;
+    flex: 1;
+    min-width: 0;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.inicio-texto strong {
+    font-size: 16px;
+}
+
+.inicio-texto small {
+    font-size: 12px;
+    color: #68798e;
+    line-height: 1.4;
+}
+
+.inicio-aviso {
+    text-align: center;
+    color: #8290a1;
+    font-size: 11px;
+    line-height: 1.6;
+    margin-top: 30px;
+}
+
+.inicio-autor {
+    text-align: center;
+    color: #66788d;
+    font-size: 12px;
+    margin-top: 20px;
+}
+
+@media (max-width: 600px) {
+    .pantalla-inicio {
+        margin: -25px -25px 25px;
+    }
+}
+
+
+/* =====================================
+   ENFERMÉTRICA - DISEÑO APP MÓVIL
+   ===================================== */
+
+@media (max-width: 600px) {
+
+    body {
+        display: block;
+        background: #ffffff;
+        padding: 0;
+        margin: 0;
+        min-height: 100vh;
+    }
+
+    .calculadora {
+        width: 100%;
+        max-width: none;
+        min-height: 100vh;
+        margin: 0;
+        padding: 20px;
+        border-radius: 0;
+        box-shadow: none;
+        box-sizing: border-box;
+    }
+
+    /* Pantalla de inicio sin márgenes exteriores */
+    .pantalla-inicio {
+        margin: -20px -20px 0;
+        border-radius: 0;
+        min-height: 100vh;
+    }
+
+    /* Encabezado de extremo a extremo */
+    .inicio-encabezado {
+        padding: 55px 24px 45px;
+        border-radius: 0;
+    }
+
+    /* Tarjetas con espacio cómodo a los lados */
+    .inicio-contenido {
+        padding: 30px 22px 24px;
+    }
+
+    .calculadora .inicio-tarjeta {
+        padding: 20px 16px;
+        border-radius: 18px;
+    }
+}
+
+
+/* BOTÓN CIRCULAR PARA VOLVER AL INICIO */
+
+#btnVolverInicio {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    margin-bottom: 20px;
+
+    background: #eaf3ff;
+    color: #174b89;
+
+    border: 1px solid #d4e5fa;
+    border-radius: 50%;
+
+    font-size: 25px;
+    font-weight: 500;
+    line-height: 1;
+
+    cursor: pointer;
+    box-shadow: none;
+}
+
+#btnVolverInicio:hover {
+    background: #dcecff;
+}
+
+#btnVolverInicio:active {
+    transform: scale(0.95);
+}
+
+
+/* SELECCIÓN DE PACIENTES - ANTROPOMETRÍA */
+
+#pantallaSeleccionAntropometria h2 {
+    color: #19365c;
+    font-size: 25px;
+    margin-bottom: 10px;
+}
+
+#pantallaSeleccionAntropometria > p {
+    color: #68798e;
+    font-size: 14px;
+    line-height: 1.5;
+    margin-bottom: 28px;
+}
+
+.seleccion-pacientes {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.calculadora .tarjeta-paciente {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    width: 100%;
+    padding: 18px 15px;
+    margin: 0;
+    background: #ffffff;
+    color: #19365c;
+    border: 1px solid #dce7f3;
+    border-radius: 18px;
+    box-shadow: 0 4px 14px rgba(30, 65, 110, 0.07);
+    text-align: left;
+    cursor: pointer;
+}
+
+.paciente-icono {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 48px;
+    height: 48px;
+    background: #eaf3ff;
+    border-radius: 14px;
+    font-size: 24px;
+}
+
+.paciente-texto {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-width: 0;
+    gap: 5px;
+}
+
+.paciente-texto strong {
+    font-size: 15px;
+    line-height: 1.4;
+}
+
+.paciente-texto small {
+    color: #68798e;
+    font-size: 12px;
+}
+
+.paciente-flecha {
+    color: #8da4bd;
+    font-size: 26px;
+}
+
+.calculadora .tarjeta-paciente:active {
+    transform: scale(0.98);
+}
+
+.paciente-icono svg {
+    color: #174b89;
+    flex-shrink: 0;
+}
+
+
+/* BOTÓN VOLVER A SELECCIÓN DE PACIENTES */
+
+#btnVolverSeleccionAntropometria {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    margin-bottom: 20px;
+    background: #eaf3ff;
+    color: #174b89;
+    border: 1px solid #d4e5fa;
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: none;
+}
+
+#btnVolverSeleccionAntropometria:active {
+    transform: scale(0.95);
+}
+
+
+/* PASO 23 - OCULTAR ELEMENTOS DEL DISEÑO ANTIGUO */
+
+/* Título duplicado de EnferMétrica */
+#contenidoAplicacion > h1 {
+    display: none;
+}
+
+/* Nombre del desarrollador bajo el título antiguo */
+#contenidoAplicacion > .subtitulo {
+    display: none;
+}
+
+/* Botones antiguos de Antropometría y Presión arterial */
+#contenidoAplicacion > .modulos {
+    display: none;
+}
+
+/* Botones antiguos de Adulto, Persona mayor y NNA */
+#moduloAntropometria .tipo-evaluación {
+    display: none;
+}
+
+/* Texto antiguo de selección */
+#contenidoEvaluacionAntropometria > p:first-of-type {
+    display: none;
+}
+
+
+/* BOTÓN VOLVER - PRESIÓN ARTERIAL */
+
+
+/* BOTÓN VOLVER - PRESIÓN ARTERIAL */
+
+#btnVolverSeleccionPA {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    margin-bottom: 20px;
+    background: #eaf3ff;
+    color: #174b89;
+    border: 1px solid #d4e5fa;
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: none;
+}
+
+
+#btnVolverSeleccionPA svg {
+    width: 22px;
+    height: 22px;
+}
+
+
+/* TARJETA DE IDENTIFICACIÓN DEL PACIENTE */
+
+.encabezado-paciente {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: #eaf3ff;
+    border: 1px solid #d4e5fa;
+    border-radius: 16px;
+    padding: 16px;
+    margin-bottom: 22px;
+}
+
+.encabezado-paciente-icono {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 54px;
+    height: 54px;
+    flex-shrink: 0;
+    background: #ffffff;
+    color: #174b89;
+    border-radius: 14px;
+}
+
+.encabezado-paciente-texto {
+    flex: 1;
+    min-width: 0;
+}
+
+.encabezado-paciente-texto span {
+    display: block;
+    color: #52749b;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.7px;
+}
+
+.encabezado-paciente-texto h2 {
+    color: #174b89;
+    font-size: 21px;
+    font-weight: 700;
+    margin: 4px 0;
+}
+
+.encabezado-paciente-texto p {
+    color: #52749b;
+    font-size: 12px;
+    margin: 0;
+}
+
+/* PANTALLA COMPLETA - PWA EN IPHONE */
+@supports (-webkit-touch-callout: none) {
+    @media (display-mode: standalone) {
+        body {
+            background: #102d60;
+        }
+
+        .pantalla-inicio {
+            margin-top: calc(-20px - env(safe-area-inset-top, 0px));
+            border-radius: 0;
+        }
+
+        .inicio-encabezado {
+            padding-top: calc(55px + env(safe-area-inset-top, 0px));
+        }
+    }
+}

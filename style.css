@@ -1132,3 +1132,12 @@ body {
         }
     }
 }
+
+/* FONDO BLANCO AL DESLIZAR EN FORMULARIOS */
+@supports (-webkit-touch-callout: none) {
+    @media (display-mode: standalone) {
+        body.modulo-abierto {
+            background: #ffffff;
+        }
+    }
+}

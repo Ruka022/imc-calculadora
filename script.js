@@ -4678,6 +4678,7 @@ document.getElementById("btnNuevaEvaluacionPANNA").addEventListener("click", fun
    ===================================== */
 
 function abrirModuloDesdeInicio(modulo) {
+    document.body.classList.add("modulo-abierto");
     document.getElementById("pantallaInicio").style.display = "none";
     document.getElementById("contenidoAplicacion").style.display = "block";
 
@@ -4702,6 +4703,7 @@ document.getElementById("inicioPresionArterial").addEventListener("click", funct
 /* VOLVER A LA PANTALLA DE INICIO */
 
 document.getElementById("btnVolverInicio").addEventListener("click", function () {
+    document.body.classList.remove("modulo-abierto");
 
     // Ocultar los módulos
     document.getElementById("contenidoAplicacion").style.display = "none";

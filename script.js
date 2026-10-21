@@ -2318,7 +2318,9 @@ function calcularIMC() {
     }
 
 
-    let imc = peso.value / (altura.value * altura.value);
+    let alturaMetros = Number(altura.value) / 100;
+
+    let imc = Number(peso.value) / (alturaMetros * alturaMetros);
 
     let categoria = "";
     let claseCategoria = "";

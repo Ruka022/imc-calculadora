@@ -2196,6 +2196,34 @@ function calificarTalla(de) {
 
 function seleccionarTipo(tipo) {
 
+
+    // Restaurar presentación original para pediatría
+    if (tipo === "pediatrico") {
+
+        const tarjetaIMC = document.querySelector(
+            "#moduloAntropometria .resultado"
+        );
+
+        const contenidoIMC = tarjetaIMC.querySelector(
+            ".contenido-tarjeta-imc"
+        );
+
+        if (contenidoIMC) {
+
+            const resultado = document.getElementById("resultado");
+            const categoria = document.getElementById("categoria");
+
+            contenidoIMC.before(resultado, categoria);
+            contenidoIMC.remove();
+        }
+
+        tarjetaIMC.classList.remove("imc-adulto-activo");
+
+        tarjetaIMC.querySelector(
+            ".titulo-resultado"
+        ).textContent = "Resultado";
+    }
+
     tipoEvaluacion = tipo;
 
     // =========================
@@ -2271,6 +2299,17 @@ function seleccionarTipo(tipo) {
         "Ingresa tus datos";
 
     document.getElementById("categoria").className = "";
+
+    // =========================
+    // LIMPIAR RESULTADO DE CINTURA
+    // =========================
+
+    const resultadoCinturaAnterior =
+        document.getElementById("resultadoCinturaAdulto");
+
+    if (resultadoCinturaAnterior) {
+        resultadoCinturaAnterior.replaceChildren();
+    }
 
 }
 
@@ -2425,9 +2464,279 @@ function calcularIMC() {
         claseCategoria;
 
 
+    // =========================================
+    // TARJETA VISUAL IMC ADULTO Y PERSONA MAYOR
+    // =========================================
+
+    const tarjetaResultadoIMC = document.querySelector(
+        "#moduloAntropometria .resultado"
+    );
+
+    const valorResultadoIMC = document.getElementById("resultado");
+    const categoriaResultadoIMC = document.getElementById("categoria");
+
+    // Activar diseño para adultos y personas mayores
+    tarjetaResultadoIMC.classList.add("imc-adulto-activo");
+
+    // Cambiar título
+    const tituloResultadoIMC = tarjetaResultadoIMC.querySelector(
+        ".titulo-resultado"
+    );
+
+    tituloResultadoIMC.textContent = "Resultado antropométrico";
+
+    // Buscar contenedor existente
+    let contenidoTarjetaIMC = tarjetaResultadoIMC.querySelector(
+        ".contenido-tarjeta-imc"
+    );
+
+    // Crear las columnas una sola vez
+    if (!contenidoTarjetaIMC) {
+
+        contenidoTarjetaIMC = document.createElement("div");
+        contenidoTarjetaIMC.className = "contenido-tarjeta-imc";
+
+        // Columna del IMC
+        const columnaValorIMC = document.createElement("div");
+        columnaValorIMC.className = "columna-imc";
+
+        const etiquetaIMC = document.createElement("span");
+        etiquetaIMC.textContent = "IMC";
+
+        columnaValorIMC.appendChild(etiquetaIMC);
+        columnaValorIMC.appendChild(valorResultadoIMC);
+
+        // Columna del estado nutricional
+        const columnaEstadoIMC = document.createElement("div");
+        columnaEstadoIMC.className = "columna-imc";
+
+        const etiquetaEstadoIMC = document.createElement("span");
+        etiquetaEstadoIMC.textContent = "Estado nutricional";
+
+        columnaEstadoIMC.appendChild(etiquetaEstadoIMC);
+        columnaEstadoIMC.appendChild(categoriaResultadoIMC);
+
+        // Incorporar ambas columnas
+        contenidoTarjetaIMC.appendChild(columnaValorIMC);
+        contenidoTarjetaIMC.appendChild(columnaEstadoIMC);
+
+        // Colocar el IMC antes de la tarjeta de cintura
+        // Incorporar la tarjeta del IMC
+        // sin depender de la ubicación de la cintura
+
+        tarjetaResultadoIMC.appendChild(contenidoTarjetaIMC);
+    }
+
+    // =========================================
+    // RESULTADO CIRCUNFERENCIA DE CINTURA
+    // ADULTO Y PERSONA MAYOR
+    // =========================================
+
+    const sexoAdulto = document.getElementById("sexoAdulto").value;
+
+    const cinturaAdulto = document.getElementById("cinturaAdulto").value;
+
+    const contenedorResultado = document.querySelector(
+        "#moduloAntropometria .resultado"
+    );
+
+    // Buscar resultado anterior
+    let resultadoCintura = document.getElementById(
+        "resultadoCinturaAdulto"
+    );
+
+    // Crear contenedor si todavía no existe
+    if (!resultadoCintura) {
+
+        resultadoCintura = document.createElement("div");
+
+        resultadoCintura.id = "resultadoCinturaAdulto";
+
+        resultadoCintura.className = "detalle-resultado";
+
+        contenedorResultado.appendChild(resultadoCintura);
+    }
+
+    // Limpiar resultado anterior
+    resultadoCintura.replaceChildren();
+
+    // Limpiar colores anteriores
+    resultadoCintura.classList.remove(
+        "cintura-baja",
+        "cintura-moderada",
+        "cintura-alta"
+    );
+
+    // La cintura es opcional
+    if (cinturaAdulto !== "") {
+
+        let mensajeCintura = "";
+
+        if (sexoAdulto === "") {
+
+            mensajeCintura = "Selecciona el sexo para clasificar la cintura.";
+
+        } else {
+
+            mensajeCintura = clasificarCinturaAntropometria(
+                cinturaAdulto,
+                sexoAdulto,
+                tipoEvaluacion
+            );
+
+            // Asignar color según clasificación
+            if (mensajeCintura === "Bajo el punto de corte") {
+
+                resultadoCintura.classList.add("cintura-baja");
+
+            } else if (mensajeCintura === "Riesgo moderado") {
+
+                resultadoCintura.classList.add("cintura-moderada");
+
+            } else if (
+                mensajeCintura === "Riesgo alto" ||
+                mensajeCintura === "Riesgo cardiovascular según cintura"
+            ) {
+
+                resultadoCintura.classList.add("cintura-alta");
+
+            }
+
+        }
+
+        // =========================================
+        // TARJETA VISUAL DE CIRCUNFERENCIA DE CINTURA
+        // =========================================
+
+        // Título principal
+        const tituloCintura = document.createElement("h3");
+        tituloCintura.className = "titulo-tarjeta-cintura";
+        tituloCintura.textContent = "Circunferencia de cintura";
+
+        // Contenedor de dos columnas
+        const contenidoCintura = document.createElement("div");
+        contenidoCintura.className = "contenido-tarjeta-cintura";
+
+        // Columna de medición
+        const columnaMedicion = document.createElement("div");
+        columnaMedicion.className = "columna-cintura";
+
+        const etiquetaMedicion = document.createElement("span");
+        etiquetaMedicion.textContent = "Medición";
+
+        const valorMedicion = document.createElement("strong");
+        valorMedicion.textContent = cinturaAdulto + " cm";
+
+        columnaMedicion.appendChild(etiquetaMedicion);
+        columnaMedicion.appendChild(valorMedicion);
+
+        // Columna de clasificación
+        const columnaClasificacion = document.createElement("div");
+        columnaClasificacion.className = "columna-cintura";
+
+        const etiquetaClasificacion = document.createElement("span");
+        etiquetaClasificacion.textContent = "Clasificación";
+
+        const valorClasificacion = document.createElement("strong");
+        valorClasificacion.className = "valor-clasificacion-cintura";
+        valorClasificacion.textContent = mensajeCintura;
+
+        columnaClasificacion.appendChild(etiquetaClasificacion);
+        columnaClasificacion.appendChild(valorClasificacion);
+
+        // Incorporar contenido a la tarjeta
+        contenidoCintura.appendChild(columnaMedicion);
+        contenidoCintura.appendChild(columnaClasificacion);
+
+        resultadoCintura.appendChild(tituloCintura);
+        resultadoCintura.appendChild(contenidoCintura);
+
+        // =========================================
+        // SEPARAR TARJETA DE CINTURA DEL IMC
+        // =========================================
+
+        const tarjetaResultadoAntropometrico =
+            document.querySelector("#moduloAntropometria .resultado");
+
+        if (resultadoCintura.parentElement === tarjetaResultadoAntropometrico) {
+
+            tarjetaResultadoAntropometrico.insertAdjacentElement(
+                "afterend",
+                resultadoCintura
+            );
+
+        }
+
+    }
+
+
     console.log("IMC:", imc);
     console.log("Tipo de evaluación:", tipoEvaluacion);
 
+}
+
+// =========================================
+// CIRCUNFERENCIA DE CINTURA
+// ADULTO Y PERSONA MAYOR
+// =========================================
+
+function clasificarCinturaAntropometria(valor, sexo, tipo) {
+
+    valor = Number(valor);
+
+    // ADULTO
+    if (tipo === "adulto") {
+
+        if (sexo === "mujer") {
+
+            if (valor < 80) {
+                return "Bajo el punto de corte";
+            }
+
+            if (valor < 88) {
+                return "Riesgo moderado";
+            }
+
+            return "Riesgo alto";
+        }
+
+        if (sexo === "hombre") {
+
+            if (valor < 94) {
+                return "Bajo el punto de corte";
+            }
+
+            if (valor < 102) {
+                return "Riesgo moderado";
+            }
+
+            return "Riesgo alto";
+        }
+    }
+
+    // PERSONA MAYOR
+    if (tipo === "adultoMayor") {
+
+        if (sexo === "mujer") {
+
+            if (valor < 88) {
+                return "Bajo el punto de corte";
+            }
+
+            return "Riesgo alto";
+        }
+
+        if (sexo === "hombre") {
+
+            if (valor < 102) {
+                return "Bajo el punto de corte";
+            }
+
+            return "Riesgo alto";
+        }
+    }
+
+    return "Sin clasificación";
 }
 
 function evaluarCintura(valor, referencia) {

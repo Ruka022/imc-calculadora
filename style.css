@@ -1141,3 +1141,336 @@ body {
         }
     }
 }
+
+/* =========================================
+   ENFERMÉTRICA
+   RESULTADO CIRCUNFERENCIA DE CINTURA
+   ========================================= */
+
+#resultadoCinturaAdulto {
+    margin-top: 18px;
+    padding: 18px;
+    border-radius: 16px;
+    background: #f4f8ff;
+    border: 1px solid #d4e5fa;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+/* Ocultar tarjeta cuando no hay resultado */
+
+#resultadoCinturaAdulto:empty {
+    display: none;
+}
+
+/* Título de la tarjeta */
+
+#resultadoCinturaAdulto p:first-child {
+    font-size: 16px;
+    font-weight: 600;
+    color: #174b89;
+    margin: 0 0 12px;
+}
+
+/* Clasificación */
+
+#resultadoCinturaAdulto p:last-child {
+    font-size: 17px;
+    font-weight: 700;
+    margin: 0;
+    padding: 12px;
+    border-radius: 10px;
+    background: white;
+}
+
+/* Bajo el punto de corte */
+
+#resultadoCinturaAdulto.cintura-baja p:last-child {
+    color: #2e7d32;
+    background: #e8f5e9;
+}
+
+/* Riesgo moderado */
+
+#resultadoCinturaAdulto.cintura-moderada p:last-child {
+    color: #e65100;
+    background: #fff3e0;
+}
+
+/* Riesgo alto */
+
+#resultadoCinturaAdulto.cintura-alta p:last-child {
+    color: #c62828;
+    background: #ffebee;
+}
+
+/* Adaptación a celulares */
+
+@media (max-width: 600px) {
+
+    #resultadoCinturaAdulto {
+        padding: 14px;
+        margin-top: 16px;
+    }
+
+    #resultadoCinturaAdulto p:first-child {
+        font-size: 15px;
+    }
+
+    #resultadoCinturaAdulto p:last-child {
+        font-size: 16px;
+    }
+
+}
+
+/* =========================================
+   ENFERMÉTRICA
+   TARJETA DE CINTURA EN DOS COLUMNAS
+   ========================================= */
+
+#resultadoCinturaAdulto .titulo-tarjeta-cintura {
+    text-align: center;
+    font-size: 16px;
+    font-weight: 700;
+    color: #174b89;
+    margin: 0 0 15px;
+}
+
+#resultadoCinturaAdulto .contenido-tarjeta-cintura {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 14px 8px;
+    align-items: stretch;
+}
+
+#resultadoCinturaAdulto .columna-cintura {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-width: 0;
+    padding: 4px 6px;
+    text-align: center;
+}
+
+#resultadoCinturaAdulto .columna-cintura:first-child {
+    border-right: 1px solid #d4e5fa;
+}
+
+#resultadoCinturaAdulto .columna-cintura span {
+    font-size: 13px;
+    color: #60758e;
+}
+
+#resultadoCinturaAdulto .columna-cintura strong {
+    font-size: 17px;
+    font-weight: 700;
+    overflow-wrap: anywhere;
+}
+
+#resultadoCinturaAdulto .columna-cintura:first-child strong {
+    color: #19365c;
+}
+
+/* Colores de clasificación */
+
+#resultadoCinturaAdulto.cintura-baja .valor-clasificacion-cintura {
+    color: #2e7d32;
+}
+
+#resultadoCinturaAdulto.cintura-moderada .valor-clasificacion-cintura {
+    color: #eb6721;
+}
+
+#resultadoCinturaAdulto.cintura-alta .valor-clasificacion-cintura {
+    color: #c62828;
+}
+
+/* Adaptación a pantallas pequeñas */
+
+@media (max-width: 600px) {
+
+    #resultadoCinturaAdulto .contenido-tarjeta-cintura {
+        padding: 12px 4px;
+    }
+
+    #resultadoCinturaAdulto .columna-cintura strong {
+        font-size: 15px;
+    }
+
+    #resultadoCinturaAdulto .columna-cintura span {
+        font-size: 12px;
+    }
+}
+
+/* =========================================
+   ENFERMÉTRICA
+   TARJETA IMC ADULTO Y PERSONA MAYOR
+   ========================================= */
+
+.resultado.imc-adulto-activo {
+    background: #f4f8ff;
+    border: 1px solid #d4e5fa;
+    border-radius: 16px;
+    padding: 18px;
+    margin-top: 20px;
+    box-sizing: border-box;
+}
+
+/* Título */
+
+.resultado.imc-adulto-activo .titulo-resultado {
+    color: #174b89;
+    font-size: 16px;
+    font-weight: 700;
+    text-align: center;
+    margin: 0 0 15px;
+}
+
+/* Contenedor del IMC y clasificación */
+
+.resultado.imc-adulto-activo .contenido-tarjeta-imc {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    background: white;
+    border-radius: 12px;
+    padding: 14px 8px;
+    align-items: center;
+}
+
+/* Columnas */
+
+.resultado.imc-adulto-activo .columna-imc {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-width: 0;
+    padding: 4px 6px;
+    text-align: center;
+}
+
+.resultado.imc-adulto-activo .columna-imc:first-child {
+    border-right: 1px solid #d4e5fa;
+}
+
+/* Etiquetas */
+
+.resultado.imc-adulto-activo .columna-imc span {
+    font-size: 13px;
+    color: #60758e;
+}
+
+/* Valores */
+
+.resultado.imc-adulto-activo .columna-imc strong {
+    font-size: 17px;
+    font-weight: 700;
+    overflow-wrap: anywhere;
+}
+
+/* Valor numérico del IMC */
+
+.resultado.imc-adulto-activo #resultado {
+    color: #19365c;
+    background: transparent;
+    padding: 0;
+    margin: 0;
+    font-size: 20px;
+}
+
+/* Clasificación nutricional */
+
+.resultado.imc-adulto-activo #categoria {
+    padding: 0;
+    margin: 0;
+    background: transparent;
+    font-size: 16px;
+    font-weight: 700;
+}
+
+/* Colores */
+
+.resultado.imc-adulto-activo #categoria.normal {
+    color: #2e7d32;
+}
+
+.resultado.imc-adulto-activo #categoria.sobrepeso {
+    color: #f76c22;
+}
+
+.resultado.imc-adulto-activo #categoria.obesidad {
+    color: #c62828;
+}
+
+.resultado.imc-adulto-activo #categoria.bajo-peso {
+    color: #1565c0;
+}
+
+/* Adaptación a celulares */
+
+@media (max-width: 600px) {
+
+    .resultado.imc-adulto-activo {
+        padding: 14px;
+    }
+
+    .resultado.imc-adulto-activo .contenido-tarjeta-imc {
+        padding: 12px 4px;
+    }
+
+    .resultado.imc-adulto-activo .columna-imc span {
+        font-size: 12px;
+    }
+
+    .resultado.imc-adulto-activo .columna-imc strong {
+        font-size: 15px;
+    }
+}
+
+/* =========================================
+   ENFERMÉTRICA
+   TARJETAS DE RESULTADOS INDEPENDIENTES
+   ========================================= */
+
+/* Tarjeta de cintura */
+
+#resultadoCinturaAdulto {
+    width: 100%;
+    margin-top: 14px;
+    margin-bottom: 20px;
+    box-sizing: border-box;
+}
+
+/* Mejor distribución de columnas */
+
+#resultadoCinturaAdulto .contenido-tarjeta-cintura {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 0;
+}
+
+/* Evitar cortes de palabras */
+
+#resultadoCinturaAdulto .columna-cintura strong {
+    overflow-wrap: normal;
+    word-break: normal;
+    hyphens: none;
+    font-size: 15px;
+    line-height: 1.4;
+}
+
+/* Dar espacio a la clasificación */
+
+#resultadoCinturaAdulto .columna-cintura {
+    padding: 6px 4px;
+}
+
+/* Tarjeta del IMC */
+
+.resultado.imc-adulto-activo {
+    margin-bottom: 0;
+}

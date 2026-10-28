@@ -525,10 +525,332 @@
                         <span class="paciente-flecha">›</span>
                     </button>
 
+                    <!-- PERFIL DE PRESIÓN ARTERIAL DE 3 DÍAS -->
+                    <button type="button"
+                            class="tarjeta-paciente"
+                            id="tarjetaPerfilPA">
+
+                        <span class="paciente-icono">
+                            <svg width="27" height="27" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor"
+                                stroke-width="1.8" stroke-linecap="round"
+                                stroke-linejoin="round" aria-hidden="true">
+                                <rect x="3" y="4" width="18" height="17" rx="2"/>
+                                <path d="M8 2v4M16 2v4M3 9h18"/>
+                                <path d="M8 14h2M14 14h2M8 18h2"/>
+                            </svg>
+                        </span>
+
+                        <span class="paciente-texto">
+                            <strong>Perfil de presión arterial</strong>
+                            <small>Promedio de 3 días y clasificación</small>
+                        </span>
+
+                        <span class="paciente-flecha">›</span>
+
+                    </button>
+
                 </div>
 
             </div>
             <!-- FIN PANTALLA DE SELECCIÓN PA -->
+
+            <!-- ========================= -->
+            <!-- PERFIL DE PRESIÓN ARTERIAL DE 3 DÍAS -->
+            <!-- ========================= -->
+
+            <div id="contenidoPerfilPA" style="display: none;">
+
+                
+
+                <button type="button"
+                        id="btnVolverPerfilPA"
+                        aria-label="Volver a selección de presión arterial">
+
+                    <svg width="22" height="22" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor"
+                        stroke-width="2.2" stroke-linecap="round"
+                        stroke-linejoin="round" aria-hidden="true">
+                        <path d="M19 12H5"></path>
+                        <path d="M12 19l-7-7 7-7"></path>
+                    </svg>
+
+                </button>
+
+                <div class="encabezado-paciente">
+
+                    <div class="encabezado-paciente-texto">
+                        <span>PRESIÓN ARTERIAL</span>
+                        <h2>Perfil de presión arterial</h2>
+                        <p>Evaluación del promedio de 3 días</p>
+                    </div>
+
+                </div>
+
+                <!-- ========================= -->
+                <!-- SELECCIÓN DE PACIENTE - PERFIL PA -->
+                <!-- ========================= -->
+
+                <div id="seleccionPacientePerfilPA">
+
+                    <label for="tipoPacientePerfilPA">
+                        Tipo de paciente
+                    </label>
+
+                    <select id="tipoPacientePerfilPA">
+
+                        <option value="">Seleccionar</option>
+
+                        <option value="adulto">
+                            Adulto / Persona mayor
+                        </option>
+
+                        <option value="nna">
+                            Niño, niña y adolescente
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- ========================= -->
+                <!-- DATOS PEDIÁTRICOS - PERFIL PA -->
+                <!-- ========================= -->
+
+                <div id="datosPediatricosPerfilPA" style="display: none;">
+
+                    <h3>Datos del paciente</h3>
+
+                   <!-- EDAD -->
+                    <label for="aniosPerfilPA">Edad (años cumplidos)</label>
+
+                    <input type="number"
+                        id="aniosPerfilPA"
+                        min="1"
+                        max="19"
+                        step="1"
+                        placeholder="Ej: 12">
+
+                    <!-- DATOS PARA NIÑOS DE 1 A 12 AÑOS -->
+                    <div id="percentilesPerfilPA" style="display: none;">
+
+                        <br>
+
+                        <label for="sexoPerfilPA">Sexo</label>
+
+                        <select id="sexoPerfilPA">
+                            <option value="">Seleccionar</option>
+                            <option value="nino">Niño</option>
+                            <option value="nina">Niña</option>
+                        </select>
+
+                        <br><br>
+
+                        <label for="tallaPerfilPA">Talla (cm)</label>
+
+                        <input type="number"
+                            id="tallaPerfilPA"
+                            min="20"
+                            max="220"
+                            step="0.1"
+                            placeholder="Ej: 145.5">
+
+                    </div>
+
+                </div>
+
+                <!-- ========================= -->
+                <!-- REGISTROS DE PA - PERFIL DE 3 DÍAS -->
+                <!-- ========================= -->
+
+                <div id="registrosPerfilPA">
+
+                    <h3>Registros de presión arterial</h3>
+
+                    <p>Ingresa el promedio de presión arterial obtenido en cada día.</p>
+
+                    <!-- DÍA 1 -->
+                    <div class="tarjeta-medicion-pa">
+
+                        <h4>Día 1</h4>
+
+                        <label for="pasDia1PerfilPA">
+                            Presión arterial sistólica (PAS)
+                        </label>
+
+                        <input type="number"
+                            id="pasDia1PerfilPA"
+                            min="40"
+                            max="300"
+                            step="1"
+                            placeholder="Ej: 130"
+                            required>
+
+                        <label for="padDia1PerfilPA">
+                            Presión arterial diastólica (PAD)
+                        </label>
+
+                        <input type="number"
+                            id="padDia1PerfilPA"
+                            min="20"
+                            max="200"
+                            step="1"
+                            placeholder="Ej: 80"
+                            required>
+
+                    </div>
+
+                    <!-- DÍA 2 -->
+                    <div class="tarjeta-medicion-pa">
+
+                        <h4>Día 2</h4>
+
+                        <label for="pasDia2PerfilPA">
+                            Presión arterial sistólica (PAS)
+                        </label>
+
+                        <input type="number"
+                            id="pasDia2PerfilPA"
+                            min="40"
+                            max="300"
+                            step="1"
+                            placeholder="Ej: 135"
+                            required>
+
+                        <label for="padDia2PerfilPA">
+                            Presión arterial diastólica (PAD)
+                        </label>
+
+                        <input type="number"
+                            id="padDia2PerfilPA"
+                            min="20"
+                            max="200"
+                            step="1"
+                            placeholder="Ej: 85"
+                            required>
+
+                    </div>
+
+                    <!-- DÍA 3 -->
+                    <div class="tarjeta-medicion-pa">
+
+                        <h4>Día 3</h4>
+
+                        <label for="pasDia3PerfilPA">
+                            Presión arterial sistólica (PAS)
+                        </label>
+
+                        <input type="number"
+                            id="pasDia3PerfilPA"
+                            min="40"
+                            max="300"
+                            step="1"
+                            placeholder="Ej: 140"
+                            required>
+
+                        <label for="padDia3PerfilPA">
+                            Presión arterial diastólica (PAD)
+                        </label>
+
+                        <input type="number"
+                            id="padDia3PerfilPA"
+                            min="20"
+                            max="200"
+                            step="1"
+                            placeholder="Ej: 90"
+                            required>
+
+                    </div>
+
+                </div>
+
+                            <!-- ========================= -->
+                            <!-- BOTONES PERFIL PA -->
+                            <!-- ========================= -->
+
+                            <!-- Calcular promedio -->
+                            <button type="button" id="btnCalcularPerfilPA">
+                                Calcular promedio
+                            </button>
+
+                            <!-- Limpiar datos -->
+                            <button type="button" id="btnLimpiarPerfilPA">
+                                Limpiar datos
+                            </button>
+
+
+                            <!-- ========================= -->
+                            <!-- RESULTADO PERFIL PA -->
+                            <!-- ========================= -->
+
+                            <div id="resultadoPerfilPA"
+                                class="resultado-perfil-pa"
+                                style="display: none;">
+
+                                <div class="perfil-pa-encabezado">
+                                    <h3>Resultado del perfil de presión arterial</h3>
+                                </div>
+
+                                <!-- Promedio -->
+                                <div class="perfil-pa-promedio">
+                                    <span class="perfil-pa-etiqueta">
+                                        Promedio de los 3 días
+                                    </span>
+
+                                    <div id="promedioPerfilPA"
+                                        class="perfil-pa-valor">
+                                        --
+                                    </div>
+                                </div>
+
+                                <!-- Clasificación de presión arterial -->
+                                <div class="perfil-pa-clasificacion">
+
+                                    <span class="perfil-pa-etiqueta">
+                                        Clasificación de presión arterial
+                                    </span>
+
+                                    <div id="clasificacionPerfilPA"
+                                        class="perfil-pa-estado">
+                                    </div>
+
+                                </div>
+
+                                <!-- Percentiles pediátricos -->
+                                <div id="percentilesResultadoPerfilPA"
+                                    class="perfil-pa-percentiles"
+                                    style="display: none;">
+
+                                    <div class="perfil-pa-percentil-tarjeta">
+                                        <span class="perfil-pa-etiqueta">
+                                            Percentil PAS
+                                        </span>
+
+                                        <span id="percentilPASPerfilPA"
+                                            class="perfil-pa-percentil-valor">
+                                            --
+                                        </span>
+                                    </div>
+
+                                    <div class="perfil-pa-percentil-tarjeta">
+                                        <span class="perfil-pa-etiqueta">
+                                            Percentil PAD
+                                        </span>
+
+                                        <span id="percentilPADPerfilPA"
+                                            class="perfil-pa-percentil-valor">
+                                            --
+                                        </span>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+            <!-- FIN PERFIL DE PRESIÓN ARTERIAL -->
             
             <div id="contenidoEvaluacionPA" style="display: none;">
 

@@ -5130,6 +5130,39 @@ document.querySelectorAll("#pantallaSeleccionPA .tarjeta-pa").forEach(function(t
     });
 });
 
+/* =========================================
+   NAVEGACIÓN - PERFIL DE PA DE 3 DÍAS
+   ========================================= */
+
+// Abrir perfil de presión arterial
+document.getElementById("tarjetaPerfilPA").addEventListener("click", function() {
+
+    document.getElementById("pantallaSeleccionPA").style.display = "none";
+
+    document.getElementById("contenidoEvaluacionPA").style.display = "none";
+
+    document.getElementById("contenidoPerfilPA").style.display = "block";
+
+    document.getElementById("btnVolverInicio").style.display = "none";
+
+    window.scrollTo(0, 0);
+
+});
+
+
+// Volver a la selección de presión arterial
+document.getElementById("btnVolverPerfilPA").addEventListener("click", function() {
+
+    document.getElementById("contenidoPerfilPA").style.display = "none";
+
+    document.getElementById("pantallaSeleccionPA").style.display = "block";
+
+    document.getElementById("btnVolverInicio").style.display = "flex";
+
+    window.scrollTo(0, 0);
+
+});
+
 
 /* VOLVER A SELECCIÓN DE PACIENTES - PRESIÓN ARTERIAL */
 document.getElementById("btnVolverSeleccionPA").addEventListener("click", function() {
@@ -5141,5 +5174,306 @@ document.getElementById("btnVolverSeleccionPA").addEventListener("click", functi
     document.getElementById("btnVolverInicio").style.display = "block";
 
     window.scrollTo(0, 0);
+
+});
+
+/* =========================================
+   PERFIL DE PA - SELECCIÓN DE PACIENTE
+   ========================================= */
+
+document.getElementById("tipoPacientePerfilPA").addEventListener("change", function() {
+
+    const tipoPaciente = this.value;
+
+    const datosPediatricos = document.getElementById("datosPediatricosPerfilPA");
+
+    // Mostrar datos pediátricos solamente para NNA
+    if (tipoPaciente === "nna") {
+
+        datosPediatricos.style.display = "block";
+
+    } else {
+
+        datosPediatricos.style.display = "none";
+
+    }
+
+});
+
+/* =========================================
+   PERFIL DE PA - CAMPOS SEGÚN EDAD
+   ========================================= */
+
+function actualizarCamposEdadPerfilPA() {
+
+    const tipoPaciente = document.getElementById("tipoPacientePerfilPA").value;
+
+    const anios = document.getElementById("aniosPerfilPA").value;
+
+    const camposPercentiles = document.getElementById("percentilesPerfilPA");
+
+    // Ocultar si no es NNA
+    if (tipoPaciente !== "nna") {
+        camposPercentiles.style.display = "none";
+        return;
+    }
+
+    // Ocultar si no se ha ingresado una edad
+    if (anios === "") {
+        camposPercentiles.style.display = "none";
+        return;
+    }
+
+    const edad = Number(anios);
+
+    // Validar edad entre 1 y 19 años
+    if (
+        !Number.isInteger(edad) ||
+        edad < 1 ||
+        edad > 19
+    ) {
+        camposPercentiles.style.display = "none";
+        return;
+    }
+
+    // De 1 a 12 años: mostrar sexo y talla
+    if (edad >= 1 && edad <= 12) {
+
+        camposPercentiles.style.display = "block";
+
+    } else {
+
+        // De 13 a 19 años: ocultar sexo y talla
+        camposPercentiles.style.display = "none";
+
+    }
+
+}
+
+
+// Actualizar al ingresar o modificar la edad
+document.getElementById("aniosPerfilPA")
+    .addEventListener("input", actualizarCamposEdadPerfilPA);
+
+
+// Actualizar al cambiar el tipo de paciente
+document.getElementById("tipoPacientePerfilPA")
+    .addEventListener("change", actualizarCamposEdadPerfilPA);
+
+/* =========================================
+   PERFIL DE PA - PROMEDIO Y CLASIFICACIÓN
+   ========================================= */
+
+document.getElementById("btnCalcularPerfilPA").addEventListener("click", function () {
+
+    const resultado = document.getElementById("resultadoPerfilPA");
+    const textoPromedio = document.getElementById("promedioPerfilPA");
+    const textoClasificacion = document.getElementById("clasificacionPerfilPA");
+
+    // Ocultar resultados anteriores
+    resultado.style.display = "none";
+
+    // Validar tipo de paciente
+    const tipoPaciente = document.getElementById("tipoPacientePerfilPA").value;
+
+    if (tipoPaciente !== "adulto" && tipoPaciente !== "nna") {
+        alert("Selecciona el tipo de paciente.");
+        return;
+    }
+
+    let edad = null;
+    let sexo = null;
+    let talla = null;
+
+    // Validar datos pediátricos
+    if (tipoPaciente === "nna") {
+
+        const campoEdad = document.getElementById("aniosPerfilPA");
+
+        if (campoEdad.value.trim() === "") {
+            alert("Ingresa la edad del paciente.");
+            return;
+        }
+
+        edad = Number(campoEdad.value);
+
+        if (!Number.isInteger(edad) || edad < 1 || edad > 19) {
+            alert("Ingresa una edad válida entre 1 y 19 años.");
+            return;
+        }
+
+        // De 1 a 12 años se requiere sexo y talla
+        if (edad <= 12) {
+
+            sexo = document.getElementById("sexoPerfilPA").value;
+
+            const campoTalla = document.getElementById("tallaPerfilPA");
+
+            if (sexo !== "nino" && sexo !== "nina") {
+                alert("Selecciona el sexo del paciente.");
+                return;
+            }
+
+            if (campoTalla.value.trim() === "") {
+                alert("Ingresa la talla del paciente.");
+                return;
+            }
+
+            talla = Number(campoTalla.value);
+
+            if (!campoTalla.checkValidity() || !Number.isFinite(talla)) {
+                alert("Ingresa una talla válida.");
+                return;
+            }
+
+        }
+    }
+
+    // Obtener las presiones de los tres días
+    const pas = [];
+    const pad = [];
+
+    for (let dia = 1; dia <= 3; dia++) {
+
+        const campoPAS = document.getElementById(`pasDia${dia}PerfilPA`);
+        const campoPAD = document.getElementById(`padDia${dia}PerfilPA`);
+
+        if (
+            campoPAS.value.trim() === "" ||
+            campoPAD.value.trim() === ""
+        ) {
+            alert(`Completa las presiones arteriales del día ${dia}.`);
+            return;
+        }
+
+        const valorPAS = Number(campoPAS.value);
+        const valorPAD = Number(campoPAD.value);
+
+        if (
+            !Number.isInteger(valorPAS) ||
+            !Number.isInteger(valorPAD) ||
+            !campoPAS.checkValidity() ||
+            !campoPAD.checkValidity() ||
+            valorPAS <= valorPAD
+        ) {
+            alert(`Revisa los valores de presión arterial del día ${dia}.`);
+            return;
+        }
+
+        pas.push(valorPAS);
+        pad.push(valorPAD);
+    }
+
+    // Calcular promedio de los tres días
+    const promedioPAS = Math.round(
+        (pas[0] + pas[1] + pas[2]) / 3
+    );
+
+    const promedioPAD = Math.round(
+        (pad[0] + pad[1] + pad[2]) / 3
+    );
+
+    // Clasificar según tipo de paciente
+    let clasificacion = "";
+    let detallePercentiles = "";
+
+    if (tipoPaciente === "adulto") {
+
+        clasificacion = clasificarPAAdulto(
+            promedioPAS,
+            promedioPAD
+        );
+
+    } else if (edad >= 13) {
+
+        clasificacion = clasificarPAAdolescente(
+            promedioPAS,
+            promedioPAD
+        );
+
+    } else {
+
+        const resultadoPediatrico = obtenerResultadoPAPediatrica(
+            edad,
+            sexo,
+            talla,
+            promedioPAS,
+            promedioPAD
+        );
+
+        if (!resultadoPediatrico) {
+            alert("No se pudo obtener la clasificación pediátrica.");
+            return;
+        }
+
+        clasificacion = resultadoPediatrico.clasificacion;
+
+        // Guardar percentiles pediátricos
+        document.getElementById("percentilPASPerfilPA").textContent =
+            resultadoPediatrico.percentilPAS;
+
+        document.getElementById("percentilPADPerfilPA").textContent =
+            resultadoPediatrico.percentilPAD;
+    }
+
+    // Mostrar promedio de presión arterial
+    textoPromedio.textContent =
+        `${promedioPAS}/${promedioPAD} mmHg`;
+
+    // Mostrar clasificación
+    textoClasificacion.textContent = clasificacion;
+
+    // Mostrar percentiles solo en niños de 1 a 12 años
+    const tarjetasPercentiles =
+        document.getElementById("percentilesResultadoPerfilPA");
+
+    if (tipoPaciente === "nna" && edad >= 1 && edad <= 12) {
+        tarjetasPercentiles.style.display = "grid";
+    } else {
+        tarjetasPercentiles.style.display = "none";
+    }
+
+    // Mostrar resultado
+    resultado.style.display = "block";
+
+});
+
+/* =========================================
+   PERFIL DE PA - LIMPIAR DATOS
+   ========================================= */
+
+document.getElementById("btnLimpiarPerfilPA")
+    .addEventListener("click", function () {
+
+    // Reiniciar tipo de paciente
+    document.getElementById("tipoPacientePerfilPA").value = "";
+
+    // Limpiar datos pediátricos
+    document.getElementById("aniosPerfilPA").value = "";
+    document.getElementById("sexoPerfilPA").value = "";
+    document.getElementById("tallaPerfilPA").value = "";
+
+    // Limpiar mediciones de los tres días
+    for (let dia = 1; dia <= 3; dia++) {
+
+        document.getElementById(`pasDia${dia}PerfilPA`).value = "";
+        document.getElementById(`padDia${dia}PerfilPA`).value = "";
+
+    }
+
+    // Limpiar resultados
+    document.getElementById("promedioPerfilPA").textContent = "--";
+    document.getElementById("clasificacionPerfilPA").textContent = "";
+
+    document.getElementById("percentilPASPerfilPA").textContent = "--";
+    document.getElementById("percentilPADPerfilPA").textContent = "--";
+
+    // Ocultar tarjetas de resultados
+    document.getElementById("resultadoPerfilPA").style.display = "none";
+
+    document.getElementById("percentilesResultadoPerfilPA").style.display = "none";
+
+    // Actualizar campos visibles según el tipo de paciente
+    actualizarCamposEdadPerfilPA();
 
 });

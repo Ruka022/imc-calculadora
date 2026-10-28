@@ -1026,12 +1026,12 @@ body {
 }
 
 
-/* BOTÓN VOLVER - PRESIÓN ARTERIAL */
+/* =========================================
+   FLECHAS DE REGRESO - PRESIÓN ARTERIAL
+   ========================================= */
 
-
-/* BOTÓN VOLVER - PRESIÓN ARTERIAL */
-
-#btnVolverSeleccionPA {
+#btnVolverSeleccionPA,
+#btnVolverPerfilPA {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1047,8 +1047,8 @@ body {
     box-shadow: none;
 }
 
-
-#btnVolverSeleccionPA svg {
+#btnVolverSeleccionPA svg,
+#btnVolverPerfilPA svg {
     width: 22px;
     height: 22px;
 }
@@ -1473,4 +1473,236 @@ body {
 
 .resultado.imc-adulto-activo {
     margin-bottom: 0;
+}
+
+/* =========================================
+   RESULTADO PERFIL DE PRESIÓN ARTERIAL
+   ========================================= */
+
+.resultado-perfil-pa {
+    margin-top: 24px;
+    padding: 22px;
+    background: #ffffff;
+    border: 1px solid #dce8f3;
+    border-radius: 18px;
+    box-shadow: 0 5px 18px rgba(30, 64, 110, 0.08);
+    animation: aparecerPerfilPA 0.3s ease;
+}
+
+/* Encabezado */
+
+.perfil-pa-encabezado {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 22px;
+    text-align: center;
+}
+
+.perfil-pa-icono {
+    font-size: 26px;
+}
+
+.perfil-pa-encabezado h3 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 700;
+    color: #23466b;
+    line-height: 1.4;
+}
+
+/* Tarjeta del promedio */
+
+.perfil-pa-promedio {
+    background: linear-gradient(135deg, #edf6ff, #f6faff);
+    border: 1px solid #d5e7f8;
+    border-radius: 14px;
+    padding: 24px 16px;
+    text-align: center;
+    margin-bottom: 16px;
+}
+
+/* Etiquetas */
+
+.perfil-pa-etiqueta {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: #62788e;
+    margin-bottom: 12px;
+    letter-spacing: 0.3px;
+}
+
+/* Valor principal */
+
+.perfil-pa-valor {
+    font-size: 34px;
+    font-weight: 800;
+    color: #1766a3;
+    letter-spacing: -0.5px;
+    line-height: 1.3;
+}
+
+/* Tarjeta de clasificación */
+
+.perfil-pa-clasificacion {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    padding: 20px 16px;
+    text-align: center;
+}
+
+/* Texto de clasificación */
+
+.perfil-pa-estado {
+    font-size: 17px;
+    font-weight: 700;
+    color: #334155;
+    line-height: 1.8;
+    white-space: pre-line;
+}
+
+/* Animación */
+
+@keyframes aparecerPerfilPA {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Adaptación a celulares */
+
+@media (max-width: 480px) {
+
+    .resultado-perfil-pa {
+        padding: 16px;
+        border-radius: 16px;
+    }
+
+    .perfil-pa-encabezado h3 {
+        font-size: 16px;
+    }
+
+    .perfil-pa-valor {
+        font-size: 29px;
+    }
+
+    .perfil-pa-estado {
+        font-size: 15px;
+    }
+
+    .perfil-pa-promedio {
+        padding: 20px 12px;
+    }
+}
+
+/* =========================================
+   TARJETAS DE PERCENTILES - PERFIL PA
+   ========================================= */
+
+.perfil-pa-percentiles {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+    margin-top: 16px;
+}
+
+/* Tarjeta individual */
+
+.perfil-pa-percentil-tarjeta {
+    background: linear-gradient(135deg, #edf6ff, #f8fbff);
+    border: 1px solid #d5e7f8;
+    border-radius: 14px;
+    padding: 18px 12px;
+    text-align: center;
+    min-width: 0;
+}
+
+/* Etiqueta del percentil */
+
+.perfil-pa-percentil-tarjeta .perfil-pa-etiqueta {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: #62788e;
+    margin-bottom: 8px;
+}
+
+/* Valor del percentil */
+
+.perfil-pa-percentil-valor {
+    display: block;
+    font-size: 25px;
+    font-weight: 800;
+    color: #1766a3;
+    line-height: 1.3;
+}
+
+/* Adaptación a celulares */
+
+@media (max-width: 480px) {
+
+    .perfil-pa-percentiles {
+        gap: 10px;
+    }
+
+    .perfil-pa-percentil-tarjeta {
+        padding: 16px 8px;
+        border-radius: 12px;
+    }
+
+    .perfil-pa-percentil-valor {
+        font-size: 23px;
+    }
+
+}
+
+/* =========================================
+   BOTÓN LIMPIAR DATOS - PERFIL PA
+   ========================================= */
+
+#btnLimpiarPerfilPA {
+    width: 100%;
+    margin-top: 12px;
+    padding: 14px;
+
+    background: #eef2f6;
+    color: #526579;
+
+    border: 1px solid #d9e2ec;
+    border-radius: 12px;
+
+    font-size: 15px;
+    font-weight: 600;
+
+    cursor: pointer;
+    transition: background 0.2s ease,
+                transform 0.2s ease;
+}
+
+/* Efecto al pasar el cursor */
+
+#btnLimpiarPerfilPA:hover {
+    background: #e1e8f0;
+}
+
+/* Efecto al presionar */
+
+#btnLimpiarPerfilPA:active {
+    transform: scale(0.98);
+}
+
+/* Accesibilidad con teclado */
+
+#btnLimpiarPerfilPA:focus-visible {
+    outline: 3px solid #4a90e2;
+    outline-offset: 3px;
 }
